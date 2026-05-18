@@ -30,6 +30,6 @@ async def get_profile(user = Depends(get_current_user)):
     return res.data
 
 @router.patch("/profile")
-async def update_profile(user = Depends(get_current_user), full_name: str, avatar_url: str = None):
+async def update_profile(full_name: str, avatar_url: str = None, user = Depends(get_current_user)):
     res = supabase.table("profiles").update({"full_name": full_name, "avatar_url": avatar_url}).eq("id", user.id).execute()
     return res.data
