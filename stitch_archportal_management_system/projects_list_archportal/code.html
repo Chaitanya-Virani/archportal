@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Projects - ArchPortal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-high": "#dee8ff",
+                      "on-secondary-fixed-variant": "#5516be",
+                      "on-secondary": "#ffffff",
+                      "outline": "#767586",
+                      "error-container": "#ffdad6",
+                      "on-primary-fixed-variant": "#2f2ebe",
+                      "on-tertiary-fixed-variant": "#703700",
+                      "on-error-container": "#93000a",
+                      "tertiary": "#904900",
+                      "on-tertiary-fixed": "#301400",
+                      "error": "#ba1a1a",
+                      "secondary-fixed-dim": "#d0bcff",
+                      "on-surface-variant": "#464554",
+                      "surface-container-low": "#f0f3ff",
+                      "primary-fixed-dim": "#c0c1ff",
+                      "on-surface": "#111c2d",
+                      "secondary-container": "#8455ef",
+                      "surface-tint": "#494bd6",
+                      "on-error": "#ffffff",
+                      "tertiary-container": "#b55d00",
+                      "on-secondary-container": "#fffbff",
+                      "on-primary-container": "#fffbff",
+                      "on-primary": "#ffffff",
+                      "outline-variant": "#c7c4d7",
+                      "inverse-surface": "#263143",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-fixed": "#23005c",
+                      "surface-variant": "#d8e3fb",
+                      "surface-container-highest": "#d8e3fb",
+                      "secondary-fixed": "#e9ddff",
+                      "tertiary-fixed-dim": "#ffb783",
+                      "background": "#f9f9ff",
+                      "on-tertiary": "#ffffff",
+                      "surface-bright": "#f9f9ff",
+                      "primary": "#4648d4",
+                      "inverse-primary": "#c0c1ff",
+                      "tertiary-fixed": "#ffdcc5",
+                      "surface": "#f9f9ff",
+                      "primary-container": "#6063ee",
+                      "on-background": "#111c2d",
+                      "primary-fixed": "#e1e0ff",
+                      "on-primary-fixed": "#07006c",
+                      "secondary": "#6b38d4",
+                      "surface-dim": "#cfdaf2",
+                      "on-tertiary-container": "#fffbff",
+                      "inverse-on-surface": "#ecf1ff",
+                      "surface-container": "#e7eeff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "24px",
+                      "stack-sm": "8px",
+                      "stack-lg": "24px",
+                      "container-padding": "24px",
+                      "stack-md": "16px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "display-lg": ["Inter"],
+                      "code-md": ["JetBrains Mono"],
+                      "headline-lg": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "headline-md": ["Inter"]
+              },
+              "fontSize": {
+                      "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "code-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background font-body-md text-on-surface custom-scrollbar">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-screen w-[280px] bg-inverse-surface border-r border-outline-variant flex flex-col py-stack-lg gap-stack-md z-50">
+<div class="px-6 mb-6">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">ArchPortal</h1>
+<p class="text-on-primary/60 text-xs">Management Console</p>
+</div>
+<nav class="flex-grow">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 px-6 py-3 text-surface-variant/80 hover:text-on-primary hover:bg-surface-container-highest/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-3 border-l-4 border-primary bg-primary-container/10 text-on-primary font-semibold transition-all duration-200" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-body-md">Projects</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-3 text-surface-variant/80 hover:text-on-primary hover:bg-surface-container-highest/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-body-md">Blueprints</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-3 text-surface-variant/80 hover:text-on-primary hover:bg-surface-container-highest/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-body-md">Timeline</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-3 text-surface-variant/80 hover:text-on-primary hover:bg-surface-container-highest/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-body-md">Team</span>
+</a>
+</li>
+</ul>
+</nav>
+<div class="mt-auto border-t border-white/10 pt-4">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 px-6 py-3 text-surface-variant/80 hover:text-on-primary hover:bg-surface-container-highest/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md">Support</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-3 text-surface-variant/80 hover:text-on-primary hover:bg-surface-container-highest/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</li>
+</ul>
+<div class="px-6 py-4 mt-2 flex items-center gap-3">
+<img alt="Architect Profile" class="w-8 h-8 rounded-full border border-white/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDssxK11R7LBqhrI61Pf3dhOJrdd7wI_bmqciHV8KODlHNZUrd_HumYJ4EgLvPrC4HwT5xEf8JdMwPwhlqDtgC_ZZvM0Rf3Kd4cGWM3HhcEnucUXQxN5L7t9Stp-IkFuQi_L2vBcdk6ONByavES3y8bijSxppPHHYcduzZvk5PYBU_giAn0zFz-KQMO18LoI0FNloWDeR2lk15hFBsbwNL8nkmmJUp6JYOA54cNzlJXpuHAvfXeZra9j0pa1p66rwwpCgzeR0LIhup2"/>
+<div class="overflow-hidden">
+<p class="text-on-primary text-sm font-semibold truncate">V. Malhotra</p>
+<p class="text-on-primary/50 text-xs truncate">Lead Architect</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[280px] min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] h-16 bg-surface border-b border-outline-variant shadow-sm z-40 flex justify-between items-center px-gutter">
+<div class="flex items-center gap-stack-md flex-1">
+<div class="relative w-[300px]">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-body-md" placeholder="Search projects..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-stack-md">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">apps</span>
+</button>
+<div class="h-8 w-px bg-outline-variant mx-2"></div>
+<img alt="User account menu" class="w-8 h-8 rounded-full cursor-pointer border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNwivtwDyoTyXR1ZRMAXe6shC7146fHYhtXVzmL-QmdyEWjF0Ag3P39JFqckYN0A3cWrh_lyGypCqHZnOxwOk0-njwwXa-sq8ZlRFcQyxd-puREoHlbABJo8L-fR1h1MN2Kfgd_K8kmxsRRhfLa79lrbddXweZenO0S1ti5TkUDuAuxCoreM85l7zUyCh0-hLSyGUMkVlPaZ-f95lWSPnq5oJDea16oDcVE0MmDd-GXGQA33_AZEPcF73XYeaVjS-D1ySR2ypm31up"/>
+</div>
+</header>
+<!-- Page Content -->
+<div class="pt-16 p-gutter">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-stack-md mb-stack-lg">
+<div class="flex items-center gap-stack-sm">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Projects</h2>
+<span class="bg-surface-container-high text-primary px-3 py-1 rounded-full text-label-md font-semibold">24 projects</span>
+</div>
+<button class="bg-primary hover:bg-primary-container text-white px-stack-lg py-2.5 rounded-lg flex items-center gap-2 font-semibold transition-colors">
+<span class="material-symbols-outlined">add</span>
+<span>New Project</span>
+</button>
+</div>
+<!-- Filter Bar -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 mb-stack-lg flex flex-wrap items-center gap-4">
+<div class="flex-1 min-w-[200px]">
+<label class="block text-label-md text-on-surface-variant mb-1 uppercase tracking-wider">Status</label>
+<select class="w-full bg-white border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:ring-2 focus:ring-primary/20 outline-none">
+<option>All Statuses</option>
+<option>Planning</option>
+<option>Designing</option>
+<option>In Progress</option>
+<option>Completed</option>
+<option>On Hold</option>
+</select>
+</div>
+<div class="flex-1 min-w-[200px]">
+<label class="block text-label-md text-on-surface-variant mb-1 uppercase tracking-wider">Phase</label>
+<select class="w-full bg-white border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:ring-2 focus:ring-primary/20 outline-none">
+<option>All Phases</option>
+<option>SD (Schematic Design)</option>
+<option>DD (Design Development)</option>
+<option>CD (Construction Docs)</option>
+<option>Bidding</option>
+<option>CA (Construction Admin)</option>
+<option>Closeout</option>
+</select>
+</div>
+<div class="flex-1 min-w-[200px]">
+<label class="block text-label-md text-on-surface-variant mb-1 uppercase tracking-wider">Sort by</label>
+<select class="w-full bg-white border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:ring-2 focus:ring-primary/20 outline-none">
+<option>Recently Updated</option>
+<option>Deadline (Ascending)</option>
+<option>Budget (High to Low)</option>
+<option>Project Name A-Z</option>
+</select>
+</div>
+<div class="flex items-end self-stretch">
+<button class="h-10 px-4 flex items-center justify-center rounded-lg border border-outline-variant hover:bg-surface-container-low transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</div>
+<!-- Projects Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase">#</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase">Project Name</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase">Client</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase">Location</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase">Phase</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase">Status</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase">Deadline</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase">Budget</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase">Team</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="py-4 px-6 text-on-surface-variant font-code-md">P-2024-01</td>
+<td class="py-4 px-6">
+<a class="font-semibold text-primary hover:underline" href="#">Skyline Corporate Hub</a>
+</td>
+<td class="py-4 px-6 text-body-md">Nexus Corp</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Mumbai, MH</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-[10px] font-bold">CD</span>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                                        In Progress
+                                    </span>
+</td>
+<td class="py-4 px-6 text-body-md">Oct 15, 2024</td>
+<td class="py-4 px-6 font-code-md text-on-surface">₹ 4.2 Cr</td>
+<td class="py-4 px-6">
+<div class="flex -space-x-2">
+<img alt="Team member" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXwvoddGcE8-fcxaDlLL_Ndnj9_Z1vgKMlKERlllrhgGhkx1k15Rnzqo3_iZf428H8WoqWYuO7BCNgBlL79gG9Rlv7xQiZnWqITUWIp8FZTGrpz0dDa-Zo6vgU1GCbosc8pkZ0g2ECve8JgyglOwxwxgQ7y4tjWa9AR5IGS9PlLTYmRrcC3NFPjMfkMS1Fvgs_OTwkNavBPTSzW5AMvoZdeKvrG5Cl5kAN8U4uKsY58CczaN9Frq6yWdoaEhPkUeJrsMToam_JcaaH"/>
+<img alt="Team member" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvkRnurP8iHxFFhd5nCQNM9yLpm7mNsx0vYk202iBxs9xpCAHIE-nVD37HwEkOTsihcKySYMPEPsowgrmElL4_SK7_-qfogjky3EEkl8lHRMeD7zCrlM5DsX-8aUjv218xReN66Bq2-6-r1uE4HFgiXF_iZI3TlCeNo_WJE0L5eSdVccadmLpHMblCNpTQCnuux57B0m53e-gtCksZENrZ1wKrjXw9yE06TZsLfj5TqhL0iy8AHhcCRhKmBDlHewug8AZLn_tk41_8"/>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-surface-container-high flex items-center justify-center text-[10px] font-bold text-primary">+2</div>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="p-1 hover:bg-surface-container-low rounded">
+<span class="material-symbols-outlined text-on-surface-variant">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="bg-slate-50 hover:bg-slate-100 transition-colors">
+<td class="py-4 px-6 text-on-surface-variant font-code-md">P-2024-05</td>
+<td class="py-4 px-6">
+<a class="font-semibold text-primary hover:underline" href="#">The Azure Residency</a>
+</td>
+<td class="py-4 px-6 text-body-md">Soma Reality</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Bangalore, KA</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-[10px] font-bold">DD</span>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                        Designing
+                                    </span>
+</td>
+<td class="py-4 px-6 text-body-md">Dec 02, 2024</td>
+<td class="py-4 px-6 font-code-md text-on-surface">₹ 12.8 Cr</td>
+<td class="py-4 px-6">
+<div class="flex -space-x-2">
+<img alt="Team member" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzowxcn9UfEx8_xNWhv88LEXuWFnPRPSeHLzLCxWU1NOr4h72XAJMOnLM8IoEY7wQZXnoRauOOw7V3pisBgwOvSRV8Ap4NlkdXEd0tAQM0MAI5DWn7kvBNtFeJoD8iXDD1j6hR0mQ7uA-aFsadU8ogWvLDUv0SZkEWxfWSnH-PSgj2GC6twEGbtSBTN5gzWY024K87M84q8VLNpQSAkQyskAmv4pSLqtkiJgKK4HeyYacrIiOKISpuw8j2WcBHkYWCJwRq-eP7h2or"/>
+<img alt="Team member" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOZsodSnDuGypYgeFAk6U-hVdJ4kAcrpjrJJXebW70iq-ts7WOPoSyI6acZC0rdIg_I9WjMYyayoed1MYsjT7Ji3rQoRcUVR29MPM57pSHo3NJtUwOWVnVs2rjUqOisB1Qy8WYjuvNwRPvADkH-u3gWJf8FrCvXsIYMCyQ47yq1V210r42gv4ypYrKpgM7TRL5ArPF-UI40C9rmajawWQWQKQT-2KMEGzVmNmeVEWoCzpkaZQwgAdIZI7jB1LtQ1mnTnBf2cXxsxQf"/>
+<img alt="Team member" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXJznmJ0iduRRQqZgPH_R5nX6UXun3p83MoT_mjXywhE-mjqW-7asqIZpFlDl-XuZS_P1I8jd4-EC-4eM4-MHYis03yoTGuvVwUKfrwSJNoUgv_cF38MHjLlcZqL6UwEJrOvusCLT93HV-XeBOavsNRYfpW-6_23dntasTnbsPBXkDlCt4R1iLgIvSeUhcFObcMQR4vLeuv2ygK3hC_9_bmlqntPSIlvJdyGCL0_I5kBNI7wd5lEGefVr6KbMmO0hARWdWAvSavZKH"/>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="p-1 hover:bg-surface-container-low rounded">
+<span class="material-symbols-outlined text-on-surface-variant">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="py-4 px-6 text-on-surface-variant font-code-md">P-2023-18</td>
+<td class="py-4 px-6">
+<a class="font-semibold text-primary hover:underline" href="#">Heritage Mall Renovation</a>
+</td>
+<td class="py-4 px-6 text-body-md">Aura Group</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Jaipur, RJ</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-[10px] font-bold">CA</span>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                        Completed
+                                    </span>
+</td>
+<td class="py-4 px-6 text-body-md">Aug 20, 2024</td>
+<td class="py-4 px-6 font-code-md text-on-surface">₹ 75 L</td>
+<td class="py-4 px-6">
+<div class="flex -space-x-2">
+<img alt="Team member" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATLtJ1IzY7R9UlT01XMpFTGpgCw4h_znkpSBSmnZaZfU84tiKMQ7PUBYe4NI3PHIoDnt_eF2AZaAN128WL1aVbqWRJ5rWudgPtEeByxpEZZcgpN2fjn6iQQ6LQolxzFXgZe9nmeR1qNyCr67o13s20ISnGv-i4V2ctoDyyQRomeZBMN5aV3JmwmRNoCymiaPnOz1noH1EKklsnXpBxfRcfhRPi_q5KP47o1FiUkXSGqpMXTPHJGmRLy6bz1G4y5ot1JX7p_0rB53hN"/>
+<img alt="Team member" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDV3je7sVA32WtYfGzoKGvT7OM-iPC8X0u3v_ni4fpSyUgMbjQ3306cVUZ5dOi8wv72l7WSTk3YwgyJioKt9SKJqw5r7puje5Py-YUFXM4RYGZ-FYyvcbisVj8I1Bzl1uWzcgtLGq_H8FtFrHpCfmI6-8gZmLNZtj2JdduQknHf__10PTeQwfJhKKoQWSHf6MKm5dPuBOjmfb5tmCAiIMGCWJ-BbtNh79ntvLSAmITQeyQSsbBjdI_McZpsUY-fKT-tECxOdBEWGA2y"/>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="p-1 hover:bg-surface-container-low rounded">
+<span class="material-symbols-outlined text-on-surface-variant">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="bg-slate-50 hover:bg-slate-100 transition-colors">
+<td class="py-4 px-6 text-on-surface-variant font-code-md">P-2024-12</td>
+<td class="py-4 px-6">
+<a class="font-semibold text-primary hover:underline" href="#">Greenfield Biotech Lab</a>
+</td>
+<td class="py-4 px-6 text-body-md">BioTech Pvt Ltd</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Hyderabad, TG</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-[10px] font-bold">SD</span>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                                        Planning
+                                    </span>
+</td>
+<td class="py-4 px-6 text-body-md">Jan 30, 2025</td>
+<td class="py-4 px-6 font-code-md text-on-surface">₹ 25.5 Cr</td>
+<td class="py-4 px-6">
+<div class="flex -space-x-2">
+<img alt="Team member" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWtIXCH0ChWR6jL9-INtCBHWt4d4AfCsx_6-eKSqVHC93nsX6nxk8HFVxP65zt06wBnaIKatleQVRLkyRk0qd1OAgm37TDV8hMt46SpWLip6dWL5_d_Plb1k2mlRsmZkFWWlW0KiJiAQoAT7wLi2yw4ImmY2MsJb7RKGgot8ux4QOlgnPWrI-_7iNer6PRJbd3XyKNII4Z5m8Xhqh626fSn3ClOHCThuz5Q6jR1X3ege2lP-81s3lLeYGI3f-o_jkDpdg9Vi5KtdUv"/>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-surface-container-high flex items-center justify-center text-[10px] font-bold text-primary">+4</div>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="p-1 hover:bg-surface-container-low rounded">
+<span class="material-symbols-outlined text-on-surface-variant">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="py-4 px-6 text-on-surface-variant font-code-md">P-2024-03</td>
+<td class="py-4 px-6">
+<a class="font-semibold text-primary hover:underline" href="#">Zenith Tower Phase II</a>
+</td>
+<td class="py-4 px-6 text-body-md">Elite Living</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Gurugram, HR</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-[10px] font-bold">CA</span>
+</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                                        On Hold
+                                    </span>
+</td>
+<td class="py-4 px-6 text-body-md">Mar 10, 2025</td>
+<td class="py-4 px-6 font-code-md text-on-surface">₹ 18.0 Cr</td>
+<td class="py-4 px-6">
+<div class="flex -space-x-2">
+<img alt="Team member" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVkAt7LqS6ymtrBL8YAkw4dtXI4YhHXvj05yjr0WJ-BcPwN_-NoA_78PEZIFP43OQKnBJhACpuBP7DezYIyouxkY8yqGOBEL9QZLALOjmtPx4J9F_uuamNLnvP2_pazAyteQehgvGN6F_QUQ74ykbGX7GfephX75SECFthUU8U2YfenK54fM7blcSHPOyLNkFnJsNNsN-P7RTSf2SW1lFlsYBWlfTxynRz5rymneZP83PwAU51bTqkJIJKLEEdRNN998iL2pXTFszq"/>
+<img alt="Team member" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArR7WpS9Mq_LehlD1qR5J5m9Wn-XneSlD0pNNIqcisTVLC05kBDtZd6Qbd0fzp-SHOmXh5nJGmrSWzeoWC3RJ0PdBfFulNHooNIoIvkN4EvpwFJAmsvK2FCO-5FfpcoRhk-rTK6v3yIjPd7_q8gR2QSTwPgOV39jpLmrGMUTlDmkwtKVNLzXz77JV2ji5ObgGiwHbwYGhmCfavGuqaFLbLSgiiTtfh2oGzmjVMx1T7jXjRsTXoi45anQgaHdG2iEGHh6zOMpKiWeXf"/>
+</div>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="p-1 hover:bg-surface-container-low rounded">
+<span class="material-symbols-outlined text-on-surface-variant">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 bg-surface-container-low flex items-center justify-between border-t border-outline-variant">
+<p class="text-body-md text-on-surface-variant">Showing 1 to 5 of 24 results</p>
+<div class="flex gap-2">
+<button class="px-4 py-2 border border-outline-variant rounded-lg bg-white text-on-surface-variant hover:bg-slate-50 disabled:opacity-50 transition-colors" disabled="">Previous</button>
+<button class="px-4 py-2 border border-outline-variant rounded-lg bg-white text-on-surface-variant hover:bg-slate-50 transition-colors">Next</button>
+</div>
+</div>
+</div>
+<!-- Dashboard Style Metric Bento (Bonus Aesthetic Layer) -->
+<div class="mt-stack-lg grid grid-cols-1 md:grid-cols-4 gap-stack-md">
+<div class="bg-white border border-outline-variant rounded-xl p-6 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<span class="text-emerald-600 text-xs font-bold">+12%</span>
+</div>
+<p class="text-on-surface-variant text-label-md uppercase tracking-wider mb-1">Total Pipeline</p>
+<h3 class="font-headline-md text-headline-md text-on-surface">₹ 142.5 Cr</h3>
+</div>
+<div class="bg-white border border-outline-variant rounded-xl p-6 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="w-10 h-10 rounded-lg bg-tertiary/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">pending_actions</span>
+</div>
+</div>
+<p class="text-on-surface-variant text-label-md uppercase tracking-wider mb-1">Active Phases</p>
+<h3 class="font-headline-md text-headline-md text-on-surface">18 Items</h3>
+</div>
+<div class="bg-white border border-outline-variant rounded-xl p-6 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">group</span>
+</div>
+</div>
+<p class="text-on-surface-variant text-label-md uppercase tracking-wider mb-1">Active Architects</p>
+<h3 class="font-headline-md text-headline-md text-on-surface">32 Staff</h3>
+</div>
+<div class="bg-primary text-white rounded-xl p-6 shadow-sm flex flex-col justify-between overflow-hidden relative">
+<div class="relative z-10">
+<p class="text-white/70 text-label-md uppercase tracking-wider mb-1">Next Deadline</p>
+<h3 class="font-headline-md text-headline-md">Skyline Hub</h3>
+<p class="text-white/90 text-sm mt-2 font-code-md">Due in 14 days</p>
+</div>
+<!-- Decorative background element -->
+<div class="absolute -right-4 -bottom-4 opacity-10">
+<span class="material-symbols-outlined !text-[120px]">architecture</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

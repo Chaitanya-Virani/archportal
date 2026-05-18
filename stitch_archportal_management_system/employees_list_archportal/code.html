@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&amp;family=JetBrains+Mono&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9ff;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#ffdcc5",
+                        "outline": "#767586",
+                        "on-primary-container": "#fffbff",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#263143",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#fffbff",
+                        "on-tertiary-fixed": "#301400",
+                        "on-secondary-container": "#fffbff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#703700",
+                        "secondary-container": "#8455ef",
+                        "secondary": "#6b38d4",
+                        "surface": "#f9f9ff",
+                        "surface-variant": "#d8e3fb",
+                        "surface-container-highest": "#d8e3fb",
+                        "tertiary-fixed-dim": "#ffb783",
+                        "surface-container": "#e7eeff",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#dee8ff",
+                        "inverse-primary": "#c0c1ff",
+                        "secondary-fixed": "#e9ddff",
+                        "on-secondary-fixed-variant": "#5516be",
+                        "primary": "#4648d4",
+                        "primary-fixed": "#e1e0ff",
+                        "tertiary": "#904900",
+                        "on-primary-fixed-variant": "#2f2ebe",
+                        "on-surface-variant": "#464554",
+                        "surface-container-low": "#f0f3ff",
+                        "tertiary-container": "#b55d00",
+                        "surface-dim": "#cfdaf2",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "on-surface": "#111c2d",
+                        "on-secondary-fixed": "#23005c",
+                        "on-background": "#111c2d",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#d0bcff",
+                        "on-primary-fixed": "#07006c",
+                        "surface-tint": "#494bd6",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#ecf1ff",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f9f9ff",
+                        "surface-bright": "#f9f9ff",
+                        "outline-variant": "#c7c4d7",
+                        "primary-container": "#6063ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "stack-sm": "8px",
+                        "stack-lg": "24px",
+                        "gutter": "24px",
+                        "container-padding": "24px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "code-md": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "code-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- SideNavBar (Mandatory Shell) -->
+<aside class="bg-inverse-surface dark:bg-inverse-surface fixed left-0 top-0 h-screen w-[280px] border-r border-outline-variant dark:border-outline flex flex-col py-stack-lg gap-stack-md z-50">
+<div class="px-gutter mb-stack-lg">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary dark:text-primary-fixed">ArchPortal</h1>
+<p class="font-body-md text-body-md text-surface-variant/60">Management Console</p>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-stack-md px-gutter py-3 text-surface-variant/80 dark:text-on-surface-variant hover:text-on-primary hover:bg-surface-container-highest/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-stack-md px-gutter py-3 text-surface-variant/80 dark:text-on-surface-variant hover:text-on-primary hover:bg-surface-container-highest/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">architecture</span>
+<span class="font-body-md text-body-md">Projects</span>
+</a>
+<a class="flex items-center gap-stack-md px-gutter py-3 text-surface-variant/80 dark:text-on-surface-variant hover:text-on-primary hover:bg-surface-container-highest/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-body-md text-body-md">Blueprints</span>
+</a>
+<a class="flex items-center gap-stack-md px-gutter py-3 text-surface-variant/80 dark:text-on-surface-variant hover:text-on-primary hover:bg-surface-container-highest/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-body-md text-body-md">Timeline</span>
+</a>
+<!-- Active Tab: Team -->
+<a class="flex items-center gap-stack-md px-gutter py-3 border-l-4 border-primary bg-primary-container/10 text-on-primary dark:text-primary-fixed-dim font-semibold transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="font-body-md text-body-md">Team</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-1">
+<a class="flex items-center gap-stack-md px-gutter py-3 text-surface-variant/80 dark:text-on-surface-variant hover:text-on-primary hover:bg-surface-container-highest/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md text-body-md">Support</span>
+</a>
+<a class="flex items-center gap-stack-md px-gutter py-3 text-surface-variant/80 dark:text-on-surface-variant hover:text-on-primary hover:bg-surface-container-highest/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</div>
+</aside>
+<!-- TopAppBar (Mandatory Shell) -->
+<header class="bg-surface dark:bg-surface-dim fixed top-0 right-0 w-[calc(100%-280px)] h-16 z-40 border-b border-outline-variant dark:border-outline shadow-sm dark:shadow-none flex justify-between items-center px-gutter h-full">
+<div class="flex items-center gap-stack-md">
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center text-outline">
+<span class="material-symbols-outlined">search</span>
+</span>
+<input class="bg-surface-container-low border border-outline-variant rounded-xl pl-10 pr-4 py-2 text-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all w-64" placeholder="Global search..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-stack-md">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined">apps</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="User account menu" class="w-full h-full object-cover" data-alt="A professional headshot of a senior architect with a confident expression, set against a blurred background of a modern architectural firm with glass walls and blueprint displays. The lighting is soft and even, highlighting a clean, high-end professional aesthetic that fits a corporate management dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgsHXhzvmrRKdL-QE8TiYNi0C_P01DcfxmA1lB79pls8fU_YQ5e2tRav88qBzb_OQyv_dOjP0r3rCMY35vn58fl3PFUONAy4G8FptQ85gbRxAPU7M2x_h09ZGrjsHnyC1nQgFtEyexLnELgk3WmcWHEpJxNoOOVEXjduyvLnM1kWVsYucABrW67HxBUEIl4l3XjyEcZs4C_3YtvFUQS-gZI6vU7et4pfza7aIvkgIDQMpLY73U-u8haAfa9ctdYAGVFRLAQyu1h2J4"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-[280px] pt-16 min-h-screen">
+<div class="p-gutter max-w-7xl mx-auto">
+<!-- Page Header Section -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-stack-md mb-stack-lg">
+<div class="flex items-center gap-3">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Employees</h2>
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 rounded-full font-label-md text-label-md">18 team members</span>
+</div>
+<button class="bg-primary text-on-primary px-stack-md py-2.5 rounded-lg flex items-center gap-2 font-body-md font-semibold shadow-sm hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined">add</span>
+                    Add Employee
+                </button>
+</div>
+<!-- Filter Bar Section -->
+<div class="bg-white border border-outline-variant rounded-xl p-4 mb-stack-lg flex flex-wrap gap-4 items-center">
+<div class="flex-1 min-w-[240px] relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center text-outline">
+<span class="material-symbols-outlined">person_search</span>
+</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-xl pl-10 pr-4 py-2 text-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="Search by name or email..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<label class="font-label-md text-label-md text-outline">Role</label>
+<select class="bg-surface-container-lowest border border-outline-variant rounded-xl px-3 py-2 text-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all min-w-[140px]">
+<option>All Roles</option>
+<option>Architect</option>
+<option>Accountant</option>
+<option>Admin</option>
+</select>
+</div>
+<div class="flex items-center gap-2">
+<label class="font-label-md text-label-md text-outline">Status</label>
+<select class="bg-surface-container-lowest border border-outline-variant rounded-xl px-3 py-2 text-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all min-w-[120px]">
+<option>All</option>
+<option>Active</option>
+<option>Inactive</option>
+</select>
+</div>
+</div>
+<!-- Employee Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Card 1: Architect -->
+<div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+<div class="h-10 bg-primary w-full relative"></div>
+<div class="px-6 pb-6 text-center -mt-8 relative">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary-container text-on-secondary-container border-4 border-white font-headline-md text-headline-md font-bold mb-3 shadow-sm">
+                            JS
+                        </div>
+<div class="flex justify-between items-start absolute top-4 right-4">
+<button class="p-1 text-outline hover:text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<h3 class="font-body-lg text-body-lg font-bold text-on-surface mb-1">Julian Somerset</h3>
+<span class="inline-block bg-secondary-fixed text-on-secondary-fixed-variant px-3 py-0.5 rounded-full font-label-md text-label-md mb-4">Architect</span>
+<div class="space-y-2 text-left mb-4 border-y border-outline-variant/30 py-4">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+<span class="font-body-md text-body-md">j.somerset@archportal.com</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">phone</span>
+<span class="font-body-md text-body-md">+1 (555) 012-3456</span>
+</div>
+<div class="flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">work</span>
+<span class="font-body-md text-body-md font-medium">3 active projects</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded font-label-md text-[11px]">AutoCAD</span>
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded font-label-md text-[11px]">Revit</span>
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded font-label-md text-[11px]">SketchUp</span>
+</div>
+<div class="flex items-center justify-between border-t border-outline-variant/30 pt-4">
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+<span class="font-label-md text-label-md text-on-surface-variant">Active Now</span>
+</div>
+<button class="text-primary font-label-md text-label-md hover:underline">View Profile</button>
+</div>
+</div>
+</div>
+<!-- Card 2: Admin -->
+<div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+<div class="h-10 bg-primary w-full relative"></div>
+<div class="px-6 pb-6 text-center -mt-8 relative">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-container text-on-primary-container border-4 border-white font-headline-md text-headline-md font-bold mb-3 shadow-sm">
+                            AM
+                        </div>
+<div class="flex justify-between items-start absolute top-4 right-4">
+<button class="p-1 text-outline hover:text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<h3 class="font-body-lg text-body-lg font-bold text-on-surface mb-1">Alisa Montgomery</h3>
+<span class="inline-block bg-primary-fixed text-on-primary-fixed-variant px-3 py-0.5 rounded-full font-label-md text-label-md mb-4">Admin</span>
+<div class="space-y-2 text-left mb-4 border-y border-outline-variant/30 py-4">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+<span class="font-body-md text-body-md">a.montgomery@archportal.com</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">phone</span>
+<span class="font-body-md text-body-md">+1 (555) 098-7654</span>
+</div>
+<div class="flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">work</span>
+<span class="font-body-md text-body-md font-medium">1 active project</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded font-label-md text-[11px]">Excel</span>
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded font-label-md text-[11px]">Notion</span>
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded font-label-md text-[11px]">SAP</span>
+</div>
+<div class="flex items-center justify-between border-t border-outline-variant/30 pt-4">
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+<span class="font-label-md text-label-md text-on-surface-variant">Active Now</span>
+</div>
+<button class="text-primary font-label-md text-label-md hover:underline">View Profile</button>
+</div>
+</div>
+</div>
+<!-- Card 3: Accountant -->
+<div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+<div class="h-10 bg-primary w-full relative"></div>
+<div class="px-6 pb-6 text-center -mt-8 relative">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-tertiary-container text-on-tertiary-container border-4 border-white font-headline-md text-headline-md font-bold mb-3 shadow-sm">
+                            BK
+                        </div>
+<div class="flex justify-between items-start absolute top-4 right-4">
+<button class="p-1 text-outline hover:text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<h3 class="font-body-lg text-body-lg font-bold text-on-surface mb-1">Bennett Kross</h3>
+<span class="inline-block bg-tertiary-fixed text-on-tertiary-fixed-variant px-3 py-0.5 rounded-full font-label-md text-label-md mb-4">Accountant</span>
+<div class="space-y-2 text-left mb-4 border-y border-outline-variant/30 py-4">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+<span class="font-body-md text-body-md">b.kross@archportal.com</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">phone</span>
+<span class="font-body-md text-body-md">+1 (555) 234-5678</span>
+</div>
+<div class="flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">work</span>
+<span class="font-body-md text-body-md font-medium">8 active projects</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded font-label-md text-[11px]">QuickBooks</span>
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded font-label-md text-[11px]">Audit</span>
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded font-label-md text-[11px]">Forecasting</span>
+</div>
+<div class="flex items-center justify-between border-t border-outline-variant/30 pt-4">
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+<span class="font-label-md text-label-md text-on-surface-variant">Active Now</span>
+</div>
+<button class="text-primary font-label-md text-label-md hover:underline">View Profile</button>
+</div>
+</div>
+</div>
+<!-- Repeat Pattern for more cards as needed -->
+<!-- Card 4: Architect 2 -->
+<div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group opacity-90 hover:opacity-100">
+<div class="h-10 bg-primary w-full relative"></div>
+<div class="px-6 pb-6 text-center -mt-8 relative">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary-container text-on-secondary-container border-4 border-white font-headline-md text-headline-md font-bold mb-3 shadow-sm">
+                            EH
+                        </div>
+<div class="flex justify-between items-start absolute top-4 right-4">
+<button class="p-1 text-outline hover:text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<h3 class="font-body-lg text-body-lg font-bold text-on-surface mb-1">Eleanor Hughes</h3>
+<span class="inline-block bg-secondary-fixed text-on-secondary-fixed-variant px-3 py-0.5 rounded-full font-label-md text-label-md mb-4">Architect</span>
+<div class="space-y-2 text-left mb-4 border-y border-outline-variant/30 py-4">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+<span class="font-body-md text-body-md">e.hughes@archportal.com</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">phone</span>
+<span class="font-body-md text-body-md">+1 (555) 345-6789</span>
+</div>
+<div class="flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">work</span>
+<span class="font-body-md text-body-md font-medium">5 active projects</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded font-label-md text-[11px]">Rhino</span>
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded font-label-md text-[11px]">V-Ray</span>
+</div>
+<div class="flex items-center justify-between border-t border-outline-variant/30 pt-4">
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+<span class="font-label-md text-label-md text-on-surface-variant">Active Now</span>
+</div>
+<button class="text-primary font-label-md text-label-md hover:underline">View Profile</button>
+</div>
+</div>
+</div>
+<!-- Card 5: Inactive Member -->
+<div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group opacity-75">
+<div class="h-10 bg-slate-400 w-full relative"></div>
+<div class="px-6 pb-6 text-center -mt-8 relative">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-surface-container-highest text-on-surface-variant border-4 border-white font-headline-md text-headline-md font-bold mb-3 shadow-sm grayscale">
+                            TR
+                        </div>
+<div class="flex justify-between items-start absolute top-4 right-4">
+<button class="p-1 text-outline hover:text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<h3 class="font-body-lg text-body-lg font-bold text-on-surface mb-1">Thomas Reed</h3>
+<span class="inline-block bg-primary-fixed text-on-primary-fixed-variant px-3 py-0.5 rounded-full font-label-md text-label-md mb-4">Admin</span>
+<div class="space-y-2 text-left mb-4 border-y border-outline-variant/30 py-4">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+<span class="font-body-md text-body-md">t.reed@archportal.com</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">phone</span>
+<span class="font-body-md text-body-md">+1 (555) 456-7890</span>
+</div>
+<div class="flex items-center gap-3 text-outline">
+<span class="material-symbols-outlined text-[20px]">work</span>
+<span class="font-body-md text-body-md font-medium">0 active projects</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded font-label-md text-[11px]">Logistics</span>
+</div>
+<div class="flex items-center justify-between border-t border-outline-variant/30 pt-4">
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-outline-variant"></span>
+<span class="font-label-md text-label-md text-on-surface-variant">Offline</span>
+</div>
+<button class="text-primary font-label-md text-label-md hover:underline">View Profile</button>
+</div>
+</div>
+</div>
+<!-- Card 6: Another Architect -->
+<div class="bg-white border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group">
+<div class="h-10 bg-primary w-full relative"></div>
+<div class="px-6 pb-6 text-center -mt-8 relative">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary-container text-on-secondary-container border-4 border-white font-headline-md text-headline-md font-bold mb-3 shadow-sm">
+                            SL
+                        </div>
+<div class="flex justify-between items-start absolute top-4 right-4">
+<button class="p-1 text-outline hover:text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<h3 class="font-body-lg text-body-lg font-bold text-on-surface mb-1">Sarah Lindholm</h3>
+<span class="inline-block bg-secondary-fixed text-on-secondary-fixed-variant px-3 py-0.5 rounded-full font-label-md text-label-md mb-4">Architect</span>
+<div class="space-y-2 text-left mb-4 border-y border-outline-variant/30 py-4">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+<span class="font-body-md text-body-md">s.lindholm@archportal.com</span>
+</div>
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">phone</span>
+<span class="font-body-md text-body-md">+1 (555) 567-8901</span>
+</div>
+<div class="flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">work</span>
+<span class="font-body-md text-body-md font-medium">4 active projects</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded font-label-md text-[11px]">Revit</span>
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded font-label-md text-[11px]">BIM 360</span>
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded font-label-md text-[11px]">Lumion</span>
+</div>
+<div class="flex items-center justify-between border-t border-outline-variant/30 pt-4">
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+<span class="font-label-md text-label-md text-on-surface-variant">Active Now</span>
+</div>
+<button class="text-primary font-label-md text-label-md hover:underline">View Profile</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination Footer -->
+<div class="mt-stack-lg flex items-center justify-between bg-white border border-outline-variant rounded-xl px-gutter py-4">
+<span class="font-body-md text-body-md text-on-surface-variant">Showing 6 of 18 members</span>
+<div class="flex gap-2">
+<button class="p-2 border border-outline-variant rounded-lg hover:bg-surface-container-low transition-colors disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="px-4 py-2 bg-primary-fixed text-on-primary-fixed font-semibold rounded-lg">1</button>
+<button class="px-4 py-2 hover:bg-surface-container-low rounded-lg transition-colors text-on-surface-variant">2</button>
+<button class="px-4 py-2 hover:bg-surface-container-low rounded-lg transition-colors text-on-surface-variant">3</button>
+<button class="p-2 border border-outline-variant rounded-lg hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

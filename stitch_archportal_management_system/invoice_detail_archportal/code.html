@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#8455ef",
+                        "surface": "#f9f9ff",
+                        "inverse-surface": "#263143",
+                        "background": "#f9f9ff",
+                        "on-surface": "#111c2d",
+                        "on-tertiary-fixed": "#301400",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f9f9ff",
+                        "inverse-primary": "#c0c1ff",
+                        "surface-container": "#e7eeff",
+                        "outline-variant": "#c7c4d7",
+                        "surface-container-highest": "#d8e3fb",
+                        "inverse-on-surface": "#ecf1ff",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#6b38d4",
+                        "on-error": "#ffffff",
+                        "primary": "#4648d4",
+                        "on-secondary-container": "#fffbff",
+                        "on-primary-fixed": "#07006c",
+                        "outline": "#767586",
+                        "on-tertiary-fixed-variant": "#703700",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "primary-container": "#6063ee",
+                        "secondary-fixed": "#e9ddff",
+                        "on-tertiary-container": "#fffbff",
+                        "on-surface-variant": "#464554",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#d0bcff",
+                        "surface-container-high": "#dee8ff",
+                        "tertiary-container": "#b55d00",
+                        "tertiary": "#904900",
+                        "on-secondary-fixed-variant": "#5516be",
+                        "tertiary-fixed": "#ffdcc5",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#e1e0ff",
+                        "tertiary-fixed-dim": "#ffb783",
+                        "on-primary-container": "#fffbff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f0f3ff",
+                        "on-background": "#111c2d",
+                        "surface-tint": "#494bd6",
+                        "on-secondary-fixed": "#23005c",
+                        "surface-variant": "#d8e3fb",
+                        "on-primary-fixed-variant": "#2f2ebe",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#cfdaf2",
+                        "on-tertiary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "stack-lg": "24px",
+                        "container-padding": "24px",
+                        "base": "8px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "code-md": ["JetBrains Mono"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "code-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .watermark {
+            transform: rotate(-30deg);
+            opacity: 0.1;
+            pointer-events: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface">
+<!-- Side Navigation Shell -->
+<aside class="fixed left-0 top-0 h-screen w-[280px] bg-inverse-surface border-r border-outline-variant flex flex-col py-stack-lg gap-stack-md z-50">
+<div class="px-gutter mb-stack-lg">
+<h1 class="font-headline-md text-headline-md font-bold text-on-primary">ArchPortal</h1>
+<p class="font-label-md text-label-md text-surface-variant/60">Management Console</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-gutter py-3 text-surface-variant/80 hover:bg-surface-container-highest/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center px-gutter py-3 border-l-4 border-primary bg-primary-container/10 text-on-primary font-semibold transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="architecture">architecture</span>
+<span class="font-body-md">Projects</span>
+</a>
+<a class="flex items-center px-gutter py-3 text-surface-variant/80 hover:bg-surface-container-highest/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="map">map</span>
+<span class="font-body-md">Blueprints</span>
+</a>
+<a class="flex items-center px-gutter py-3 text-surface-variant/80 hover:bg-surface-container-highest/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="calendar_today">calendar_today</span>
+<span class="font-body-md">Timeline</span>
+</a>
+<a class="flex items-center px-gutter py-3 text-surface-variant/80 hover:bg-surface-container-highest/10 transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="groups">groups</span>
+<span class="font-body-md">Team</span>
+</a>
+</nav>
+<div class="mt-auto px-gutter space-y-1">
+<a class="flex items-center py-2 text-surface-variant/80 hover:text-on-primary" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="help">help</span>
+<span class="font-label-md">Support</span>
+</a>
+<a class="flex items-center py-2 text-surface-variant/80 hover:text-on-primary" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="settings">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Top App Bar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-280px)] h-16 bg-surface border-b border-outline-variant shadow-sm flex justify-between items-center px-gutter z-40">
+<div class="flex items-center gap-stack-md">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="search">search</span>
+<span class="text-on-surface-variant font-body-md">Search projects or invoices...</span>
+</div>
+<div class="flex items-center gap-stack-md">
+<button class="p-2 hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="apps">apps</span>
+</button>
+<img alt="User account menu" class="w-8 h-8 rounded-full border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKf2aQUeiJ_E1jVjjFb5Mm_gzWipcLLxLLfAs3yovRs8ybAPYS45Xg2BYjAjSSdBIpaAULFSrEwGJhrz7xGd-YuGYJdbL6AgpjaRE107rn01ycIfDkoBPtQgv0E3VKHlRMpkzi-14ZZNap_BaVYc6nLuwFrVGruO1eSRd4lew7gs2FfAeLDCVdQDMTjw4x1LIR_K3H1_itM8diC9Jvub92GkW74QxUzpp-VO9D7oTs4H_J3XdSqty5fiQIEIfQfV4UESpoPb2uiZko"/>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-[280px] pt-16 min-h-screen">
+<div class="p-gutter max-w-[1400px] mx-auto">
+<!-- Breadcrumbs / Page Header -->
+<div class="flex items-center gap-2 mb-stack-lg text-on-surface-variant">
+<span class="font-label-md">Projects</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span>
+<span class="font-label-md">Skyline Tower</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span>
+<span class="font-label-md text-primary">Invoice #INV-0041</span>
+</div>
+<!-- Two-Column Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column (60%): Invoice Preview -->
+<div class="lg:col-span-7 xl:col-span-8">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm p-12 relative overflow-hidden">
+<!-- Watermark Stamp -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="watermark font-black text-[120px] text-error uppercase border-[12px] border-error px-12 py-4 rounded-xl opacity-[0.05]">
+                                PENDING
+                            </div>
+</div>
+<!-- Invoice Header -->
+<div class="flex justify-between items-start mb-12">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary mb-2">INVOICE</h2>
+<div class="space-y-1">
+<p class="font-headline-md text-headline-md text-on-surface">#INV-0041</p>
+<div class="flex gap-4">
+<div class="text-on-surface-variant">
+<p class="font-label-md text-label-md uppercase tracking-wider">Issue Date</p>
+<p class="font-body-md">Oct 12, 2023</p>
+</div>
+<div class="text-on-surface-variant">
+<p class="font-label-md text-label-md uppercase tracking-wider">Due Date</p>
+<p class="font-body-md text-error font-semibold">Nov 12, 2023</p>
+</div>
+</div>
+</div>
+</div>
+<div class="text-right">
+<h3 class="font-headline-md text-headline-md text-on-surface">ArchPortal Studio</h3>
+<p class="text-on-surface-variant font-body-md">124 Architecture Way<br/>Design District, MH 400001<br/>contact@archportal.com</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-12 mb-12 border-t border-outline-variant pt-8">
+<div>
+<p class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant mb-2">Bill To</p>
+<h4 class="font-headline-md text-headline-md mb-1">Horizon Urban Developers</h4>
+<p class="text-on-surface-variant font-body-md">The Zenith Suite 500<br/>Commercial Hub North<br/>Mumbai, India</p>
+</div>
+<div>
+<p class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant mb-2">Project Context</p>
+<h4 class="font-headline-md text-headline-md mb-1">Skyline Tower</h4>
+<p class="text-on-surface-variant font-body-md">Phase: Construction Documents<br/>Milestone: Foundation Structural Review</p>
+</div>
+</div>
+<!-- Amount Breakdown Table -->
+<div class="mb-12">
+<table class="w-full">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-4 py-3 text-left font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Service / Milestone</th>
+<th class="px-4 py-3 text-right font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Rate</th>
+<th class="px-4 py-3 text-right font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Qty</th>
+<th class="px-4 py-3 text-right font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">Amount</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr>
+<td class="px-4 py-6">
+<p class="font-headline-md text-headline-md mb-1">Structural Analysis &amp; Design</p>
+<p class="text-on-surface-variant font-body-md">Comprehensive review of foundation load-bearing requirements for Tower A.</p>
+</td>
+<td class="px-4 py-6 text-right font-body-md">₹3,50,000</td>
+<td class="px-4 py-6 text-right font-body-md">1</td>
+<td class="px-4 py-6 text-right font-body-md">₹3,50,000</td>
+</tr>
+<tr>
+<td class="px-4 py-6">
+<p class="font-headline-md text-headline-md mb-1">MEP Coordination</p>
+<p class="text-on-surface-variant font-body-md">Initial drafting for Mechanical, Electrical, and Plumbing systems.</p>
+</td>
+<td class="px-4 py-6 text-right font-body-md">₹2,50,000</td>
+<td class="px-4 py-6 text-right font-body-md">1</td>
+<td class="px-4 py-6 text-right font-body-md">₹2,50,000</td>
+</tr>
+</tbody>
+<tfoot>
+<tr class="border-t-2 border-primary">
+<td colspan="2"></td>
+<td class="px-4 py-6 text-right font-label-md text-label-md uppercase text-on-surface-variant">Grand Total</td>
+<td class="px-4 py-6 text-right font-headline-lg text-headline-lg text-primary">₹6,00,000</td>
+</tr>
+</tfoot>
+</table>
+</div>
+<!-- Footer Notes -->
+<div class="border-t border-outline-variant pt-8">
+<p class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant mb-2">Payment Notes</p>
+<p class="text-on-surface-variant font-body-md italic mb-4">Please include Invoice #INV-0041 in the bank transfer reference. Payments are due within 30 days of the issue date. Late payments are subject to a 2% monthly interest fee.</p>
+<div class="flex gap-4 items-center">
+<div class="bg-surface-container p-4 rounded-lg flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="account_balance">account_balance</span>
+<div>
+<p class="font-label-md text-label-md">HDFC Bank - Current A/C</p>
+<p class="font-code-md text-code-md">00411234567890 • HDFC0000123</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column (40%): Actions & Metadata -->
+<div class="lg:col-span-5 xl:col-span-4 space-y-stack-lg">
+<!-- Quick Actions Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm p-stack-lg">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-md text-headline-md">Invoice Status</h3>
+<span class="px-4 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-md text-label-md uppercase">Pending</span>
+</div>
+<div class="space-y-4">
+<button class="w-full bg-primary hover:bg-primary-container text-on-primary py-3 rounded-lg font-headline-md flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+                                Mark as Paid
+                            </button>
+<button class="w-full border border-primary text-primary hover:bg-primary-fixed py-3 rounded-lg font-headline-md flex items-center justify-center gap-2 transition-all">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                                Download PDF
+                            </button>
+<div class="grid grid-cols-2 gap-4">
+<button class="border border-outline text-on-surface-variant hover:bg-surface-container-low py-2 rounded-lg font-label-md flex items-center justify-center gap-2 transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+                                    Edit
+                                </button>
+<button class="border border-error text-error hover:bg-error-container py-2 rounded-lg font-label-md flex items-center justify-center gap-2 transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span>
+                                    Delete
+                                </button>
+</div>
+</div>
+</div>
+<!-- Metadata Card -->
+<div class="bg-surface-container-low border border-outline-variant rounded-xl p-stack-lg space-y-6">
+<h3 class="font-headline-md text-headline-md text-on-surface border-b border-outline-variant pb-4">Document Info</h3>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant font-body-md">Created by</span>
+<div class="flex items-center gap-2">
+<img alt="Avatar" class="w-5 h-5 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkW-_Ksp1uv-P0YI50cn-UmiFRN2I5wJNSWlhGDDSBoVzkjYFkvo7L1wCXm9_-ncCFbJt6ToEZBNFVVNGGQALZnttb7_XZvjVpReWYfMO8mxsH6hx1Upm69TbzYwj7xAhxBJ8AIxLlWzOISikW68uQj7MOpaPYQUamZ4uzEGD84U2cXfkjyIoPZP1motxrZTT6cYumsAIhPZN3plBEpZ8Xkr7MFKNj_5oJk8KTyLLnwMJbgx-R4pp91EXuvPVOxwjYpUC9tExot8uY"/>
+<span class="font-body-md font-semibold text-on-surface">Ar. Sahil Verma</span>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant font-body-md">Created at</span>
+<span class="font-body-md text-on-surface">Oct 12, 2023 10:45 AM</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant font-body-md">Project Link</span>
+<a class="font-body-md text-primary hover:underline flex items-center gap-1" href="#">
+                                    Skyline Tower
+                                    <span class="material-symbols-outlined text-[14px]" data-icon="open_in_new">open_in_new</span>
+</a>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant font-body-md">Tax ID</span>
+<span class="font-code-md text-code-md">GSTIN: 27AAAAA0000A1Z5</span>
+</div>
+</div>
+<div class="pt-4 border-t border-outline-variant">
+<p class="font-label-md text-label-md text-on-surface-variant mb-3">Timeline</p>
+<div class="space-y-4 relative before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-[2px] before:bg-outline-variant">
+<div class="relative pl-8">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-primary flex items-center justify-center ring-4 ring-surface-container-low">
+<span class="material-symbols-outlined text-[14px] text-on-primary" data-icon="description">description</span>
+</div>
+<p class="font-label-md text-on-surface">Invoice Created</p>
+<p class="text-[11px] text-on-surface-variant">Oct 12, 10:45 AM</p>
+</div>
+<div class="relative pl-8">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center ring-4 ring-surface-container-low">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant" data-icon="mail">mail</span>
+</div>
+<p class="font-label-md text-on-surface">Sent to Horizon Urban Developers</p>
+<p class="text-[11px] text-on-surface-variant">Oct 12, 11:30 AM</p>
+</div>
+<div class="relative pl-8">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center ring-4 ring-surface-container-low">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant" data-icon="visibility">visibility</span>
+</div>
+<p class="font-label-md text-on-surface">Viewed by Client</p>
+<p class="text-[11px] text-on-surface-variant">Oct 14, 03:12 PM</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Client Profile Snippet -->
+<div class="bg-surface-container border border-outline-variant rounded-xl p-stack-lg flex items-center gap-4">
+<div class="w-12 h-12 bg-on-surface rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-surface" data-icon="domain">domain</span>
+</div>
+<div>
+<p class="font-headline-md text-headline-md text-on-surface">Horizon Urban</p>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase">Key Account</p>
+</div>
+</div>
+<button class="ml-auto p-2 hover:bg-surface-container-highest rounded-lg transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>
