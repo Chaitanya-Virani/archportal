@@ -20,13 +20,26 @@ async def list_employees(request: Request, user = Depends(get_current_user)):
 
 @router.get("/{employee_id}", response_class=HTMLResponse)
 async def employee_detail(request: Request, employee_id: str, user = Depends(get_current_user)):
-    res = supabase.table("employees").select("*").eq("id", employee_id).single().execute()
-    employee = res.data
+    # Fetch employee and their assigned projects
+    emp_res = supabase.table("employees").select("*").eq("id", employee_id).single().execute()
+    employee = emp_res.data
+
     if not employee:
         raise HTTPException(status_code=404, detail="Employee not found")
+
+    # Fetch assigned projects via project_assignments table
+    assign_res = supabase.table("project_assignments").select("project_id").eq("employee_id", employee_id).execute()
+    project_ids = [a['project_id'] for a in assign_res.data]
+
+    projects = []
+    if project_ids:
+        proj_res = supabase.table("projects").select("*").in_("id", project_ids).execute()
+        projects = proj_res.data
+
     return templates.TemplateResponse("employee_detail.html", {
         "request": request,
         "employee": employee,
+        "projects": projects,
         "user": user,
         "active_page": "employees"
     })

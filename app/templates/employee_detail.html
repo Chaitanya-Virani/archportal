@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="p-gutter max-w-[1400px] mx-auto">
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 mb-stack-lg text-on-surface-variant">
+        <a class="font-label-md text-label-md hover:text-primary transition-colors" href="/employees">Employees</a>
+        <span class="material-symbols-outlined text-sm">chevron_right</span>
+        <span class="font-label-md text-label-md text-on-surface">{{ employee.name }}</span>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+        <!-- Left Column (40%) -->
+        <div class="lg:col-span-5 space-y-gutter">
+            <!-- Profile Card -->
+            <section class="bg-surface-container-lowest p-stack-lg rounded-xl border border-outline-variant shadow-sm">
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-24 h-24 rounded-full bg-primary mb-stack-md flex items-center justify-center border-4 border-primary-fixed overflow-hidden">
+                        <img alt="{{ employee.name }}" class="w-full h-full object-cover" src="{{ employee.avatar_url if employee.avatar_url else 'https://via.placeholder.com/96' }}">
+                    </div>
+                    <h2 class="font-headline-md text-[22px] font-bold text-on-surface mb-1">{{ employee.name }}</h2>
+                    <span class="px-3 py-1 bg-secondary-container/10 text-secondary font-label-md text-label-md rounded-full mb-stack-lg">{{ employee.role_title }}</span>
+                    <div class="w-full space-y-4 text-left border-t border-outline-variant pt-stack-lg">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary text-xl">mail</span>
+                            <span class="font-body-md text-body-md text-on-surface-variant">{{ employee.email }}</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary text-xl">phone</span>
+                            <span class="font-body-md text-body-md text-on-surface-variant">{{ employee.phone or 'N/A' }}</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary text-xl">calendar_month</span>
+                            <span class="font-body-md text-body-md text-on-surface-variant">Joined: {{ employee.date_joined }}</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Skills Card -->
+            <section class="bg-surface-container-lowest p-stack-lg rounded-xl border border-outline-variant shadow-sm">
+                <h3 class="font-headline-md text-headline-md mb-stack-lg flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">psychology</span>
+                    Skills & Expertise
+                </h3>
+                <div class="flex flex-wrap gap-2">
+                    {% for skill in employee.skills %}
+                    <span class="px-3 py-1.5 bg-primary/10 text-primary font-label-md text-label-md rounded-full border border-primary/20">{{ skill }}</span>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Admin Actions -->
+            <div class="flex flex-col gap-3">
+                {% if user.role == 'ADMIN' %}
+                <button class="flex items-center justify-center gap-2 bg-primary text-on-primary py-3 px-6 rounded-lg font-body-md font-semibold hover:bg-primary-container transition-all active:scale-[0.98]">
+                    <span class="material-symbols-outlined text-xl">edit</span>
+                    Edit Employee
+                </button>
+                <button class="flex items-center justify-center gap-2 border border-error text-error py-3 px-6 rounded-lg font-body-md font-semibold hover:bg-error/5 transition-all">
+                    <span class="material-symbols-outlined text-xl">person_off</span>
+                    Deactivate Account
+                </button>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Right Column (60%) -->
+        <div class="lg:col-span-7 space-y-gutter">
+            <!-- Work Summary Card -->
+            <section class="bg-surface-container-lowest p-stack-lg rounded-xl border border-outline-variant shadow-sm">
+                <div class="flex justify-between items-center mb-stack-lg">
+                    <h3 class="font-headline-md text-headline-md">Work Summary</h3>
+                    <span class="font-label-md text-label-md text-on-surface-variant">Annual Review cycle 2024</span>
+                </div>
+                <div class="grid grid-cols-3 gap-stack-md mb-stack-lg">
+                    <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant">
+                        <p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Total Projects</p>
+                        <p class="font-display-lg text-display-lg text-primary">
+                            {% set total = projects|length %} {{ total }}
+                        </p>
+                    </div>
+                    <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant">
+                        <p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Active</p>
+                        <p class="font-display-lg text-display-lg text-secondary">
+                            {% set active = projects|selectattr('status', 'equalto', 'IN_PROGRESS')|list|length %} {{ active }}
+                        </p>
+                    </div>
+                    <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant">
+                        <p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Completed</p>
+                        <p class="font-display-lg text-display-lg text-tertiary-container">
+                            {% set completed = projects|selectattr('status', 'equalto', 'COMPLETED')|list|length %} {{ completed }}
+                        </p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-end mb-1">
+                        <span class="font-label-md text-label-md text-on-surface-variant">Project Status Ratio</span>
+                        <span class="font-label-md text-label-md text-on-surface">
+                            {% if total > 0 %}{{ (active / total * 100)|round(1) }}% Active / {{ (completed / total * 100)|round(1) }}% Completed{% else %}0% Active / 0% Completed{% endif %}
+                        </span>
+                    </div>
+                    <div class="w-full h-4 bg-surface-container-high rounded-full overflow-hidden flex">
+                        <div class="h-full bg-secondary" style="width: {{ (active / total * 100)|round(1) if total > 0 else 0 }}%"></div>
+                        <div class="h-full bg-tertiary-container" style="width: {{ (completed / total * 100)|round(1) if total > 0 else 0 }}%"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Assigned Projects Card -->
+            <section class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+                <div class="p-stack-lg border-b border-outline-variant flex justify-between items-center">
+                    <h3 class="font-headline-md text-headline-md text-on-surface">Assigned Projects</h3>
+                    <button class="text-primary font-label-md text-label-md hover:underline">View History</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-surface-container-low">
+                            <tr>
+                                <th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant border-b border-outline-variant">Project Name</th>
+                                <th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant border-b border-outline-variant">Phase</th>
+                                <th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant border-b border-outline-variant">Status</th>
+                                <th class="px-6 py-4 font-label-md text-label-md text-on-surface-variant border-b border-outline-variant text-right">Deadline</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-outline-variant">
+                            {% for project in projects %}
+                            <tr class="hover:bg-surface-container-lowest transition-colors">
+                                <td class="px-6 py-4">
+                                    <p class="font-body-md font-semibold text-on-surface">{{ project.name }}</p>
+                                    <p class="font-label-md text-on-surface-variant">{{ project.location }}</p>
+                                </td>
+                                <td class="px-6 py-4 font-body-md text-on-surface-variant">{{ project.phase }}</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 {% if project.status == 'IN_PROGRESS' %}bg-secondary/10 text-secondary{% elif project.status == 'COMPLETED' %}bg-tertiary-container/10 text-tertiary-container{% else %}bg-primary/10 text-primary{% endif %} font-label-md text-label-md rounded-full">{{ project.status }}</span>
+                                </td>
+                                <td class="px-6 py-4 font-body-md text-on-surface-variant text-right">{{ project.deadline }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}
