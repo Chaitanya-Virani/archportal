@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ArchPortal{% endblock %}</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .sidebar-active { border-left: 4px solid #6366f1; background-color: #1e293b; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-72 bg-slate-900 text-white flex flex-col">
+            <div class="p-6 text-2xl font-bold tracking-tight flex items-center gap-2">
+                <div class="w-8 h-8 bg-indigo-500 rounded-lg"></div>
+                ArchPortal
+            </div>
+            <nav class="flex-1 px-4 space-y-2 mt-4">
+                <a href="/" class="flex items-center px-4 py-3 rounded-lg transition-all hover:bg-slate-800 {% if active_page == 'dashboard' %}sidebar-active{% endif %}">
+                    <span>Dashboard</span>
+                </a>
+                <a href="/projects" class="flex items-center px-4 py-3 rounded-lg transition-all hover:bg-slate-800 {% if active_page == 'projects' %}sidebar-active{% endif %}">
+                    <span>Projects</span>
+                </a>
+                <a href="/employees" class="flex items-center px-4 py-3 rounded-lg transition-all hover:bg-slate-800 {% if active_page == 'employees' %}sidebar-active{% endif %}">
+                    <span>Employees</span>
+                </a>
+                <a href="/billing" class="flex items-center px-4 py-3 rounded-lg transition-all hover:bg-slate-800 {% if active_page == 'billing' %}sidebar-active{% endif %}">
+                    <span>Billing</span>
+                </a>
+            </nav>
+            <div class="p-4 border-t border-slate-800">
+                <a href="/accounts/logout" class="flex items-center px-4 py-3 rounded-lg transition-all hover:bg-slate-800 text-slate-400 hover:text-white">
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Bar -->
+            <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8">
+                <div class="relative w-96">
+                    <input type="text" placeholder="Search everything..." class="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50">
+                    <div class="absolute left-3 top-2.5 text-slate-400">🔍</div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="text-right">
+                        <p class="text-sm font-medium">{{ user.full_name if user else 'Guest' }}</p>
+                        <p class="text-xs text-slate-500">{{ user.role if user else 'No Role' }}</p>
+                    </div>
+                    <div class="w-10 h-10 bg-slate-200 rounded-full overflow-hidden">
+                        <img src="{{ user.avatar_url if user else 'https://via.placeholder.com/40' }}" alt="User Avatar">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="flex-1 overflow-auto p-8">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+</body>
+</html>
