@@ -9,7 +9,7 @@ router = APIRouter(prefix="/accounts", tags=["accounts"])
 
 @router.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
+    return templates.TemplateResponse(request, "login.html")
 
 @router.post("/login")
 async def login(response: Response, request: Request, email: str = Form(...), password: str = Form(...)):
@@ -23,8 +23,7 @@ async def login(response: Response, request: Request, email: str = Form(...), pa
         redirect.set_cookie(key="supabase-token", value=token, httponly=True, secure=True, samesite="Lax")
         return redirect
     except Exception as e:
-        return templates.TemplateResponse("login.html", {
-            "request": request,
+        return templates.TemplateResponse(request, "login.html", {
             "error": str(e)
         }, status_code=401)
 

@@ -10,8 +10,7 @@ router = APIRouter(prefix="/projects", tags=["projects"])
 async def list_projects(request: Request, user = Depends(get_current_user)):
     res = supabase.table("projects").select("*").execute()
     projects = res.data
-    return templates.TemplateResponse("projects_list.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "projects_list.html", {
         "projects": projects,
         "user": user,
         "active_page": "projects"
@@ -42,8 +41,7 @@ async def project_detail(request: Request, project_id: str, user = Depends(get_c
     total_invoiced = sum(inv.get('amount', 0) or 0 for inv in invoices)
     invoiced_percent = round((total_invoiced / total_budget * 100), 1) if total_budget > 0 else 0
 
-    return templates.TemplateResponse("project_detail.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "project_detail.html", {
         "project": project,
         "architects": architects,
         "invoices": invoices,
@@ -75,8 +73,7 @@ async def create_project(
         "created_by": user.id
     }
     res = supabase.table("projects").insert(data).execute()
-    return templates.TemplateResponse("projects_list.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "projects_list.html", {
         "projects": res.data,
         "user": user,
         "active_page": "projects"

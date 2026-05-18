@@ -11,8 +11,7 @@ router = APIRouter(prefix="/billing", tags=["billing"])
 async def list_invoices(request: Request, user = Depends(get_current_user)):
     res = supabase.table("invoices").select("*, projects(name)").execute()
     invoices = res.data
-    return templates.TemplateResponse("billing_list.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "billing_list.html", {
         "invoices": invoices,
         "user": user,
         "active_page": "billing"
@@ -25,8 +24,7 @@ async def invoice_detail(request: Request, invoice_id: str, user = Depends(get_c
     if not invoice:
         raise HTTPException(status_code=404, detail="Invoice not found")
 
-    return templates.TemplateResponse("billing_detail.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "billing_detail.html", {
         "invoice": invoice,
         "user": user,
         "active_page": "billing"
@@ -51,8 +49,7 @@ async def create_invoice(
         "created_by": user.id
     }
     res = supabase.table("invoices").insert(data).execute()
-    return templates.TemplateResponse("billing_list.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "billing_list.html", {
         "invoices": res.data,
         "user": user,
         "active_page": "billing"

@@ -29,8 +29,7 @@ async def dashboard(request: Request, user = Depends(get_current_user)):
     deadlines = supabase.table("projects").select("name, deadline").order("deadline", asc=True).limit(5).execute()
     upcoming_deadlines = deadlines.data
 
-    return templates.TemplateResponse("dashboard.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "dashboard.html", {
         "user": user,
         "active_page": "dashboard",
         "stats": {

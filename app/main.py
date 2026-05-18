@@ -26,8 +26,7 @@ app.include_router(dashboard.router)
 async def root(request: Request, user = Depends(get_current_user_optional)):
     if not user:
         return RedirectResponse(url="/accounts/login", status_code=302)
-    return templates.TemplateResponse("dashboard.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "dashboard.html", {
         "user": user,
         "active_page": "dashboard"
     })

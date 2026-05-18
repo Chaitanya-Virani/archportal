@@ -10,8 +10,7 @@ router = APIRouter(prefix="/employees", tags=["employees"])
 async def list_employees(request: Request, user = Depends(get_current_user)):
     res = supabase.table("employees").select("*").execute()
     employees = res.data
-    return templates.TemplateResponse("employees_list.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "employees_list.html", {
         "employees": employees,
         "user": user,
         "active_page": "employees"
@@ -35,8 +34,7 @@ async def employee_detail(request: Request, employee_id: str, user = Depends(get
         proj_res = supabase.table("projects").select("*").in_("id", project_ids).execute()
         projects = proj_res.data
 
-    return templates.TemplateResponse("employee_detail.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "employee_detail.html", {
         "employee": employee,
         "projects": projects,
         "user": user,
@@ -59,8 +57,7 @@ async def create_employee(
         "is_active": True
     }
     res = supabase.table("employees").insert(data).execute()
-    return templates.TemplateResponse("employees_list.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "employees_list.html", {
         "employees": res.data,
         "user": user,
         "active_page": "employees"
