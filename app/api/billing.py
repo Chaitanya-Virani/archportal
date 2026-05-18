@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Request, Form
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from app.core.security import get_current_user, role_required
 from app.core.supabase import supabase
 from app.core.templates import templates
@@ -11,8 +11,13 @@ router = APIRouter(prefix="/billing", tags=["billing"])
 async def list_invoices(request: Request, user = Depends(get_current_user)):
     res = supabase.table("invoices").select("*, projects(name)").execute()
     invoices = res.data
+    
+    proj_res = supabase.table("projects").select("id, name").execute()
+    projects = proj_res.data
+    
     return templates.TemplateResponse(request, "billing_list.html", {
         "invoices": invoices,
+        "projects": projects,
         "user": user,
         "active_page": "billing"
     })
@@ -49,13 +54,9 @@ async def create_invoice(
         "created_by": user.id
     }
     res = supabase.table("invoices").insert(data).execute()
-    return templates.TemplateResponse(request, "billing_list.html", {
-        "invoices": res.data,
-        "user": user,
-        "active_page": "billing"
-    })
+    return RedirectResponse(url="/billing/", status_code=303)
 
 @router.post("/mark-paid/{invoice_id}")
 async def mark_paid(invoice_id: str, user = Depends(get_current_user), role = Depends(role_required(["ADMIN", "ACCOUNTANT"]))):
     res = supabase.table("invoices").update({"status": "PAID"}).eq("id", invoice_id).execute()
-    return {"status": "success", "message": "Invoice marked as paid"}
+    return RedirectResponse(url=f"/billing/{invoice_id}", status_code=303)

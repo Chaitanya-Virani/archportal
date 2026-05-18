@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Request, Form
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from app.core.security import get_current_user, role_required
 from app.core.supabase import supabase
 from app.core.templates import templates
@@ -73,8 +73,4 @@ async def create_project(
         "created_by": user.id
     }
     res = supabase.table("projects").insert(data).execute()
-    return templates.TemplateResponse(request, "projects_list.html", {
-        "projects": res.data,
-        "user": user,
-        "active_page": "projects"
-    })
+    return RedirectResponse(url="/projects/", status_code=303)
