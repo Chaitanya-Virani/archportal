@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
-from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from app.core.security import get_current_user
 from app.core.supabase import supabase
-from app.main import templates
+from app.core.templates import templates
 
 router = APIRouter(prefix="/dashboard", tags=["dashboard"])
 

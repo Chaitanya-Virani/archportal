@@ -3,7 +3,6 @@ from fastapi.responses import Response
 from app.core.config import settings
 from app.core.supabase import supabase
 from typing import Optional
-import jwt
 
 def get_token_from_cookie(request: Request) -> Optional[str]:
     return request.cookies.get("supabase-token")
@@ -23,6 +22,18 @@ async def get_current_user(token: str = Depends(get_token_from_cookie)):
         return user.user
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(e))
+
+async def get_current_user_optional(token: str = Depends(get_token_from_cookie)):
+    """Like get_current_user but returns None instead of raising when unauthenticated."""
+    if not token:
+        return None
+    try:
+        user = supabase.auth.get_user(token)
+        if not user:
+            return None
+        return user.user
+    except Exception:
+        return None
 
 async def get_current_user_role(user = Depends(get_current_user)):
     # Fetch role from profiles table

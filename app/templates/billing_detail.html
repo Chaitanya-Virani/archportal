@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="p-6 max-w-[1400px] mx-auto">
+    <!-- Breadcrumb -->
+    <nav class="mb-6 flex items-center text-slate-500 text-sm uppercase tracking-wider">
+        <a class="hover:text-indigo-500 transition-colors" href="/billing">Billing</a>
+        <span class="mx-2">›</span>
+        <span class="text-slate-900 font-semibold">{{ invoice.invoice_number }}</span>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Invoice Details -->
+        <div class="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-8 shadow-sm">
+            <div class="flex justify-between items-start mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-1">Invoice {{ invoice.invoice_number }}</h2>
+                    <p class="text-slate-500">Project: {{ invoice.projects.name if invoice.projects else 'N/A' }}</p>
+                </div>
+                <span class="px-3 py-1 rounded-full text-sm font-semibold border
+                    {% if invoice.status == 'PAID' %}bg-green-100 text-green-700 border-green-200
+                    {% elif invoice.status == 'PENDING' %}bg-yellow-100 text-yellow-700 border-yellow-200
+                    {% else %}bg-rose-100 text-rose-700 border-rose-200{% endif %}">
+                    {{ invoice.status.replace('_', ' ').title() }}
+                </span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6 mb-8">
+                <div>
+                    <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Amount</p>
+                    <p class="text-3xl font-bold text-slate-900">₹ {{ invoice.amount }}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Due Date</p>
+                    <p class="text-lg font-semibold text-slate-900">{{ invoice.due_date }}</p>
+                </div>
+            </div>
+
+            {% if invoice.status != 'PAID' %}
+            <form method="post" action="/billing/mark-paid/{{ invoice.id }}">
+                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 px-6 rounded-lg transition-colors text-sm">
+                    Mark as Paid
+                </button>
+            </form>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar Info -->
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm h-fit">
+            <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Invoice Details</h3>
+            <div class="space-y-4">
+                <div>
+                    <p class="text-xs text-slate-400 uppercase">Invoice ID</p>
+                    <p class="text-sm font-mono text-slate-700">{{ invoice.id[:8] if invoice.id else 'N/A' }}...</p>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-400 uppercase">Created</p>
+                    <p class="text-sm text-slate-700">{{ invoice.created_at if invoice.created_at else 'N/A' }}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-400 uppercase">Status</p>
+                    <p class="text-sm text-slate-700">{{ invoice.status }}</p>
+                </div>
+            </div>
+            <hr class="my-4 border-slate-100">
+            <a href="/billing" class="text-indigo-600 text-sm font-medium hover:underline">← Back to all invoices</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

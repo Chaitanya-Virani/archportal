@@ -37,7 +37,7 @@
                 </a>
             </nav>
             <div class="p-4 border-t border-slate-800">
-                <a href="/accounts/logout" class="flex items-center px-4 py-3 rounded-lg transition-all hover:bg-slate-800 text-slate-400 hover:text-white">
+                <a href="/accounts/logout" class="flex items-center px-4 py-3 rounded-lg transition-all hover:bg-slate-800 text-slate-400 hover:text-white" id="logout-link">
                     <span>Logout</span>
                 </a>
             </div>
@@ -53,8 +53,8 @@
                 </div>
                 <div class="flex items-center gap-4">
                     <div class="text-right">
-                        <p class="text-sm font-medium">{{ user.full_name if user else 'Guest' }}</p>
-                        <p class="text-xs text-slate-500">{{ user.role if user else 'No Role' }}</p>
+                        <p class="text-sm font-medium">{{ user.user_metadata.full_name if user and user.user_metadata else (user.email if user else 'Guest') }}</p>
+                        <p class="text-xs text-slate-500">{{ user.user_metadata.role if user and user.user_metadata and user.user_metadata.role else 'Member' }}</p>
                     </div>
                     <div class="w-10 h-10 bg-slate-200 rounded-full overflow-hidden">
                         <img src="{{ user.avatar_url if user else 'https://via.placeholder.com/40' }}" alt="User Avatar">

@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Request, Form
-from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from app.core.security import get_current_user, role_required
 from app.core.supabase import supabase
-from app.main import templates
+from app.core.templates import templates
 from datetime import date
 
 router = APIRouter(prefix="/billing", tags=["billing"])

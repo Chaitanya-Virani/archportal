@@ -4,3 +4,4 @@ supabase
 jinja2
 python-multipart
 pydantic-settings
+PyJWT
