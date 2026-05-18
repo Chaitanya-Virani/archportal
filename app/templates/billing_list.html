@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="p-gutter max-w-[1400px] mx-auto">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-stack-lg">
+        <h2 class="font-headline-lg text-headline-lg text-on-surface">Billing & Invoices</h2>
+        <a href="/billing/create" class="bg-primary text-white px-stack-md py-2.5 rounded-lg font-semibold flex items-center gap-2">
+            <span class="material-symbols-outlined">add</span> New Invoice
+        </a>
+    </div>
+
+    <!-- Invoices Table -->
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden">
+        <table class="w-full text-left">
+            <thead class="bg-surface-container-low border-b border-outline-variant">
+                <tr class="text-outline font-label-md">
+                    <th class="px-gutter py-4">Invoice #</th>
+                    <th class="px-gutter py-4">Project</th>
+                    <th class="px-gutter py-4 text-right">Amount</th>
+                    <th class="px-gutter py-4">Due Date</th>
+                    <th class="px-gutter py-4">Status</th>
+                    <th class="px-gutter py-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-outline-variant">
+                {% for inv in invoices %}
+                <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="px-gutter py-4 font-code-md">{{ inv.invoice_number }}</td>
+                    <td class="px-gutter py-4">{{ inv.projects.name if inv.projects else 'N/A' }}</td>
+                    <td class="px-gutter py-4 text-right font-semibold">₹ {{ inv.amount }}</td>
+                    <td class="px-gutter py-4 text-on-surface-variant">{{ inv.due_date }}</td>
+                    <td class="px-gutter py-4">
+                        <span class="px-2 py-0.5 rounded-full font-label-md border
+                            {% if inv.status == 'PAID' %}bg-green-100 text-green-700 border-green-200
+                            {% elif inv.status == 'PENDING' %}bg-yellow-100 text-yellow-700 border-yellow-200
+                            {% else %}bg-rose-100 text-rose-700 border-rose-200{% endif %}">
+                            {{ inv.status.replace('_', ' ').title() }}
+                        </span>
+                    </td>
+                    <td class="px-gutter py-4">
+                        <a href="/billing/{{ inv.id }}" class="text-primary hover:underline">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
