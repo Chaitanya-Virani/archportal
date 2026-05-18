@@ -1,45 +1,97 @@
 {% extends "base.html" %}
 
-{% block content %}
-<div class="p-gutter max-w-[1400px] mx-auto">
-    <!-- Header -->
-    <div class="flex justify-between items-center mb-stack-lg">
-        <h2 class="font-headline-lg text-headline-lg text-on-surface">Billing & Invoices</h2>
-        <a href="/billing/create" class="bg-primary text-white px-stack-md py-2.5 rounded-lg font-semibold flex items-center gap-2">
-            <span class="material-symbols-outlined">add</span> New Invoice
-        </a>
-    </div>
+{% block title %}Billing - ArchPortal{% endblock %}
 
-    <!-- Invoices Table -->
-    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden">
-        <table class="w-full text-left">
-            <thead class="bg-surface-container-low border-b border-outline-variant">
-                <tr class="text-outline font-label-md">
-                    <th class="px-gutter py-4">Invoice #</th>
-                    <th class="px-gutter py-4">Project</th>
-                    <th class="px-gutter py-4 text-right">Amount</th>
-                    <th class="px-gutter py-4">Due Date</th>
-                    <th class="px-gutter py-4">Status</th>
-                    <th class="px-gutter py-4">Actions</th>
+{% block content %}
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-stack-md mb-stack-lg">
+    <div class="flex items-center gap-stack-sm">
+        <h2 class="font-headline-lg text-headline-lg text-on-surface">Billing & Invoices</h2>
+        <span class="bg-surface-container-high text-primary px-3 py-1 rounded-full text-label-md font-semibold">{{ invoices|length }} invoices</span>
+    </div>
+    <button class="bg-primary hover:bg-primary-container text-white px-stack-lg py-2.5 rounded-lg flex items-center justify-center gap-2 font-semibold transition-colors w-full md:w-auto">
+        <span class="material-symbols-outlined">add</span>
+        <span>Create Invoice</span>
+    </button>
+</div>
+
+<!-- Filter Bar -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 mb-stack-lg flex flex-col md:flex-row flex-wrap items-stretch md:items-center gap-4">
+    <div class="flex-1 min-w-[200px]">
+        <label class="block text-label-md text-on-surface-variant mb-1 uppercase tracking-wider hidden md:block">Status</label>
+        <select class="w-full bg-white border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:ring-2 focus:ring-primary/20 outline-none">
+            <option>All Statuses</option>
+            <option>Pending</option>
+            <option>Paid</option>
+            <option>Overdue</option>
+        </select>
+    </div>
+    <div class="flex-1 min-w-[200px]">
+        <label class="block text-label-md text-on-surface-variant mb-1 uppercase tracking-wider hidden md:block">Sort by</label>
+        <select class="w-full bg-white border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:ring-2 focus:ring-primary/20 outline-none">
+            <option>Issue Date (Newest)</option>
+            <option>Due Date (Ascending)</option>
+            <option>Amount (High to Low)</option>
+        </select>
+    </div>
+</div>
+
+<!-- Invoices Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden">
+    <div class="overflow-x-auto custom-scrollbar">
+        <table class="w-full text-left border-collapse min-w-[700px]">
+            <thead>
+                <tr class="bg-surface-container-low border-b border-outline-variant">
+                    <th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase">Invoice ID</th>
+                    <th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase">Project</th>
+                    <th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase">Issue Date</th>
+                    <th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase">Due Date</th>
+                    <th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase">Amount</th>
+                    <th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase">Status</th>
+                    <th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase text-right">Actions</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-outline-variant">
-                {% for inv in invoices %}
+                {% for invoice in invoices %}
                 <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="px-gutter py-4 font-code-md">{{ inv.invoice_number }}</td>
-                    <td class="px-gutter py-4">{{ inv.projects.name if inv.projects else 'N/A' }}</td>
-                    <td class="px-gutter py-4 text-right font-semibold">₹ {{ inv.amount }}</td>
-                    <td class="px-gutter py-4 text-on-surface-variant">{{ inv.due_date }}</td>
-                    <td class="px-gutter py-4">
-                        <span class="px-2 py-0.5 rounded-full font-label-md border
-                            {% if inv.status == 'PAID' %}bg-green-100 text-green-700 border-green-200
-                            {% elif inv.status == 'PENDING' %}bg-yellow-100 text-yellow-700 border-yellow-200
-                            {% else %}bg-rose-100 text-rose-700 border-rose-200{% endif %}">
-                            {{ inv.status.replace('_', ' ').title() }}
-                        </span>
+                    <td class="py-4 px-6">
+                        <a href="/billing/{{ invoice.id }}" class="font-code-md text-primary hover:underline block truncate max-w-[120px]" title="{{ invoice.id }}">{{ invoice.id[:8] }}...</a>
                     </td>
-                    <td class="px-gutter py-4">
-                        <a href="/billing/{{ inv.id }}" class="text-primary hover:underline">View</a>
+                    <td class="py-4 px-6 text-body-md truncate max-w-[150px]" title="{{ invoice.project_name if invoice.project_name else invoice.project_id }}">{{ invoice.project_name if invoice.project_name else invoice.project_id }}</td>
+                    <td class="py-4 px-6 text-body-md">{{ invoice.issue_date }}</td>
+                    <td class="py-4 px-6 text-body-md">{{ invoice.due_date }}</td>
+                    <td class="py-4 px-6 font-code-md text-on-surface">
+                        ${{ "{:,.2f}".format(invoice.amount) if invoice.amount else '0.00' }}
+                    </td>
+                    <td class="py-4 px-6">
+                        {% if invoice.status == 'PAID' %}
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-200">
+                            Paid
+                        </span>
+                        {% elif invoice.status == 'PENDING' %}
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-yellow-50 text-yellow-700 text-xs font-semibold border border-yellow-200">
+                            Pending
+                        </span>
+                        {% elif invoice.status == 'OVERDUE' %}
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-error-container text-on-error-container text-xs font-semibold border border-error">
+                            Overdue
+                        </span>
+                        {% else %}
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-50 text-slate-700 text-xs font-semibold border border-slate-200">
+                            {{ invoice.status }}
+                        </span>
+                        {% endif %}
+                    </td>
+                    <td class="py-4 px-6 text-right">
+                        <a href="/billing/{{ invoice.id }}" class="p-2 inline-flex hover:bg-surface-container-low rounded text-primary transition-colors">
+                            <span class="material-symbols-outlined text-sm">visibility</span>
+                        </a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="py-8 px-6 text-center text-on-surface-variant">
+                        No invoices found.
                     </td>
                 </tr>
                 {% endfor %}
@@ -47,4 +99,5 @@
         </table>
     </div>
 </div>
+
 {% endblock %}

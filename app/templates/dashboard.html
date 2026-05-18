@@ -1,69 +1,100 @@
 {% extends "base.html" %}
 
-{% block content %}
-<div class="p-gutter max-w-[1400px] mx-auto">
-    <h2 class="font-headline-lg text-headline-lg text-on-surface mb-stack-lg">Management Overview</h2>
+{% block title %}Dashboard - ArchPortal{% endblock %}
 
-    <!-- Stats Bento Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-stack-md mb-stack-lg">
-        <div class="bg-white border border-outline-variant rounded-xl p-6 shadow-sm">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                    <span class="material-symbols-outlined">architecture</span>
-                </div>
-                <p class="font-label-md text-outline uppercase tracking-wider">Active Projects</p>
-            </div>
-            <h3 class="font-display-lg text-display-lg text-on-surface">{{ stats.active_projects }}</h3>
-        </div>
-        <div class="bg-white border border-outline-variant rounded-xl p-6 shadow-sm">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary">
-                    <span class="material-symbols-outlined">payments</span>
-                </div>
-                <p class="font-label-md text-outline uppercase tracking-wider">Pending Receivables</p>
-            </div>
-            <h3 class="font-display-lg text-display-lg text-on-surface">₹ {{ stats.pending_receivables }} Cr</h3>
-        </div>
-        <div class="bg-white border border la-outline-variant rounded-xl p-6 shadow-sm">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-10 h-10 rounded-lg bg-tertiary/10 flex items-center justify-center text-tertiary">
-                    <span class="material-symbols-outlined">groups</span>
-                </div>
-                <p class="font-label-md text-outline uppercase tracking-wider">Active Architects</p>
-            </div>
-            <h3 class="font-display-lg text-display-lg text-on-surface">{{ stats.active_architects }}</h3>
+{% block content %}
+<div class="max-w-[1400px] mx-auto space-y-stack-lg">
+    <div class="flex items-center justify-between">
+        <h2 class="font-headline-lg text-2xl md:text-headline-lg text-on-surface">Management Overview</h2>
+        <div class="text-on-surface-variant font-label-md text-sm">
+            <span class="material-symbols-outlined align-middle mr-1" data-icon="calendar_today">calendar_today</span>
+            <span class="align-middle">Today</span>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg">
-        <!-- Recent Projects -->
-        <section class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden">
-            <div class="p-stack-lg border-b border-outline-variant flex justify-between items-center">
-                <h3 class="font-headline-md text-headline-md text-on-surface">Recent Projects</h3>
-                <a href="/projects" class="text-primary font-label-md hover:underline">View All</a>
+    <!-- Stats Bento Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-stack-md lg:gap-stack-lg">
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 rounded-xl bg-primary-container/20 flex items-center justify-center text-primary border border-primary-container/30">
+                    <span class="material-symbols-outlined text-[24px]">architecture</span>
+                </div>
+                <span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded text-xs font-bold">+2 this month</span>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
+            <p class="font-label-md text-outline uppercase tracking-wider mb-1 text-xs">Active Projects</p>
+            <h3 class="font-display-lg text-3xl md:text-display-lg text-on-surface font-bold">{{ stats.active_projects }}</h3>
+        </div>
+        
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 rounded-xl bg-secondary-container/20 flex items-center justify-center text-secondary border border-secondary-container/30">
+                    <span class="material-symbols-outlined text-[24px]">account_balance_wallet</span>
+                </div>
+            </div>
+            <p class="font-label-md text-outline uppercase tracking-wider mb-1 text-xs">Pending Receivables</p>
+            <h3 class="font-display-lg text-3xl md:text-display-lg text-on-surface font-bold">${{ "{:,.2f}".format(stats.pending_receivables) if stats.pending_receivables else '0.00' }}</h3>
+        </div>
+        
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow md:col-span-2 lg:col-span-1">
+            <div class="flex justify-between items-start mb-4">
+                <div class="w-12 h-12 rounded-xl bg-tertiary-container/20 flex items-center justify-center text-tertiary border border-tertiary-container/30">
+                    <span class="material-symbols-outlined text-[24px]">groups</span>
+                </div>
+            </div>
+            <p class="font-label-md text-outline uppercase tracking-wider mb-1 text-xs">Active Architects</p>
+            <h3 class="font-display-lg text-3xl md:text-display-lg text-on-surface font-bold">{{ stats.active_architects }}</h3>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-stack-lg">
+        <!-- Recent Projects (2/3 width on xl) -->
+        <section class="xl:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden flex flex-col">
+            <div class="p-4 md:p-stack-lg border-b border-outline-variant flex justify-between items-center">
+                <h3 class="font-headline-md text-lg md:text-headline-md text-on-surface flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">history</span>
+                    Recent Projects
+                </h3>
+                <a href="/projects/" class="text-primary font-label-md hover:underline flex items-center gap-1 text-sm">
+                    View All <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+            </div>
+            <div class="overflow-x-auto flex-grow custom-scrollbar">
+                <table class="w-full text-left min-w-[500px]">
                     <thead class="bg-surface-container-low border-b border-outline-variant">
-                        <tr class="text-outline font-label-md">
-                            <th class="px-gutter py-3">Project Name</th>
-                            <th class="px-gutter py-3">Phase</th>
-                            <th class="px-gutter py-3">Status</th>
+                        <tr class="text-outline font-label-md uppercase tracking-wider text-xs">
+                            <th class="px-4 md:px-gutter py-4">Project Name</th>
+                            <th class="px-4 md:px-gutter py-4">Phase</th>
+                            <th class="px-4 md:px-gutter py-4">Status</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-outline-variant">
                         {% for project in recent_projects %}
-                        <tr class="hover:bg-slate-50 transition-colors">
-                            <td class="px-gutter py-4 font-semibold">{{ project.name }}</td>
-                            <td class="px-gutter py-4 text-on-surface-variant">{{ project.phase }}</td>
-                            <td class="px-gutter py-4">
-                                <span class="px-2 py-0.5 rounded-full font-label-md border
-                                    {% if project.status == 'IN_PROGRESS' %}bg-blue-100 text-blue-700 border-blue-200
-                                    {% elif project.status == 'COMPLETED' %}bg-green-100 text-green-700 border-green-200
-                                    {% else %}bg-amber-100 text-amber-700 border-amber-200{% endif %}">
-                                    {{ project.status.replace('_', ' ').title() }}
-                                </span>
+                        <tr class="hover:bg-slate-50 transition-colors group cursor-pointer" onclick="window.location.href='/projects/{{ project.id }}'">
+                            <td class="px-4 md:px-gutter py-4">
+                                <span class="font-semibold text-on-surface group-hover:text-primary transition-colors block truncate max-w-[200px]">{{ project.name }}</span>
                             </td>
+                            <td class="px-4 md:px-gutter py-4 text-on-surface-variant font-body-md text-sm">
+                                <span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded text-xs font-bold">{{ project.current_phase if project.current_phase else 'N/A' }}</span>
+                            </td>
+                            <td class="px-4 md:px-gutter py-4">
+                                {% if project.status == 'IN_PROGRESS' %}
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold border border-blue-100">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> In Progress
+                                </span>
+                                {% elif project.status == 'COMPLETED' %}
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-100">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Completed
+                                </span>
+                                {% else %}
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-semibold border border-amber-100">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> {{ project.status }}
+                                </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="3" class="px-4 py-8 text-center text-on-surface-variant text-sm">No recent projects found.</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -71,24 +102,31 @@
             </div>
         </section>
 
-        <!-- Upcoming Deadlines -->
-        <section class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden">
-            <div class="p-stack-lg border-b border-outline-variant flex justify-between items-center">
-                <h3 class="font-headline-md text-headline-md text-on-surface">Upcoming Deadlines</h3>
+        <!-- Upcoming Deadlines (1/3 width on xl) -->
+        <section class="xl:col-span-1 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden flex flex-col">
+            <div class="p-4 md:p-stack-lg border-b border-outline-variant flex justify-between items-center bg-error-container/10">
+                <h3 class="font-headline-md text-lg md:text-headline-md text-on-surface flex items-center gap-2">
+                    <span class="material-symbols-outlined text-error">warning</span>
+                    Upcoming Deadlines
+                </h3>
             </div>
-            <div class="p-stack-lg space-y-stack-md">
+            <div class="p-4 md:p-stack-lg space-y-4 flex-grow overflow-y-auto custom-scrollbar max-h-[400px]">
                 {% for project in upcoming_deadlines %}
-                <div class="flex items-center justify-between p-3 rounded-lg bg-white border border-outline-variant hover:border-primary transition-colors">
-                    <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-outline">event</span>
-                        <span class="font-body-md font-semibold">{{ project.name }}</span>
+                <a href="/projects/{{ project.id }}" class="flex flex-col p-4 rounded-xl bg-white border border-outline-variant hover:border-error/50 hover:shadow-sm transition-all group">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="font-body-md font-bold text-on-surface group-hover:text-primary transition-colors truncate max-w-[200px]">{{ project.name }}</span>
                     </div>
-                    <span class="font-code-md text-on-surface-variant">{{ project.deadline }}</span>
+                    <div class="flex items-center gap-2 text-error">
+                        <span class="material-symbols-outlined text-[16px]">event</span>
+                        <span class="font-label-md font-bold text-xs">{{ project.deadline }}</span>
+                    </div>
+                </a>
+                {% else %}
+                <div class="flex flex-col items-center justify-center h-full text-on-surface-variant opacity-70 py-8">
+                    <span class="material-symbols-outlined text-4xl mb-2">event_available</span>
+                    <p class="text-sm font-medium">No pressing deadlines.</p>
                 </div>
                 {% endfor %}
-                {% if not upcoming_deadlines %}
-                <p class="text-center text-on-surface-variant py-8">No upcoming deadlines.</p>
-                {% endif %}
             </div>
         </section>
     </div>

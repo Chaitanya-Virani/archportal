@@ -1,72 +1,239 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="light" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>{% block title %}ArchPortal{% endblock %}</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Inter & JetBrains Mono -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#dee8ff",
+                        "on-secondary-fixed-variant": "#5516be",
+                        "on-secondary": "#ffffff",
+                        "outline": "#767586",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#2f2ebe",
+                        "on-tertiary-fixed-variant": "#703700",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#904900",
+                        "on-tertiary-fixed": "#301400",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#d0bcff",
+                        "on-surface-variant": "#464554",
+                        "surface-container-low": "#f0f3ff",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "on-surface": "#111c2d",
+                        "secondary-container": "#8455ef",
+                        "surface-tint": "#494bd6",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#b55d00",
+                        "on-secondary-container": "#fffbff",
+                        "on-primary-container": "#fffbff",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#c7c4d7",
+                        "inverse-surface": "#263143",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed": "#23005c",
+                        "surface-variant": "#d8e3fb",
+                        "surface-container-highest": "#d8e3fb",
+                        "secondary-fixed": "#e9ddff",
+                        "tertiary-fixed-dim": "#ffb783",
+                        "background": "#f9f9ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f9f9ff",
+                        "primary": "#4648d4",
+                        "inverse-primary": "#c0c1ff",
+                        "tertiary-fixed": "#ffdcc5",
+                        "surface": "#f9f9ff",
+                        "primary-container": "#6063ee",
+                        "on-background": "#111c2d",
+                        "primary-fixed": "#e1e0ff",
+                        "on-primary-fixed": "#07006c",
+                        "secondary": "#6b38d4",
+                        "surface-dim": "#cfdaf2",
+                        "on-tertiary-container": "#fffbff",
+                        "inverse-on-surface": "#ecf1ff",
+                        "surface-container": "#e7eeff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "24px",
+                        "container-padding": "24px",
+                        "stack-md": "16px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "code-md": ["JetBrains Mono"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "code-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
     <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
         body { font-family: 'Inter', sans-serif; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
-        .sidebar-active { border-left: 4px solid #6366f1; background-color: #1e293b; }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 10px;
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900">
-    <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar -->
-        <aside class="w-72 bg-slate-900 text-white flex flex-col">
-            <div class="p-6 text-2xl font-bold tracking-tight flex items-center gap-2">
-                <div class="w-8 h-8 bg-indigo-500 rounded-lg"></div>
-                ArchPortal
-            </div>
-            <nav class="flex-1 px-4 space-y-2 mt-4">
-                <a href="/" class="flex items-center px-4 py-3 rounded-lg transition-all hover:bg-slate-800 {% if active_page == 'dashboard' %}sidebar-active{% endif %}">
-                    <span>Dashboard</span>
-                </a>
-                <a href="/projects" class="flex items-center px-4 py-3 rounded-lg transition-all hover:bg-slate-800 {% if active_page == 'projects' %}sidebar-active{% endif %}">
-                    <span>Projects</span>
-                </a>
-                <a href="/employees" class="flex items-center px-4 py-3 rounded-lg transition-all hover:bg-slate-800 {% if active_page == 'employees' %}sidebar-active{% endif %}">
-                    <span>Employees</span>
-                </a>
-                <a href="/billing" class="flex items-center px-4 py-3 rounded-lg transition-all hover:bg-slate-800 {% if active_page == 'billing' %}sidebar-active{% endif %}">
-                    <span>Billing</span>
-                </a>
-            </nav>
-            <div class="p-4 border-t border-slate-800">
-                <a href="/accounts/logout" class="flex items-center px-4 py-3 rounded-lg transition-all hover:bg-slate-800 text-slate-400 hover:text-white" id="logout-link">
-                    <span>Logout</span>
-                </a>
-            </div>
-        </aside>
+<body class="bg-background font-body-md text-on-surface custom-scrollbar overflow-x-hidden">
 
-        <!-- Main Content -->
-        <main class="flex-1 flex flex-col overflow-hidden">
-            <!-- Top Bar -->
-            <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8">
-                <div class="relative w-96">
-                    <input type="text" placeholder="Search everything..." class="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50">
-                    <div class="absolute left-3 top-2.5 text-slate-400">🔍</div>
-                </div>
-                <div class="flex items-center gap-4">
-                    <div class="text-right">
-                        <p class="text-sm font-medium">{{ user.user_metadata.full_name if user and user.user_metadata else (user.email if user else 'Guest') }}</p>
-                        <p class="text-xs text-slate-500">{{ user.user_metadata.role if user and user.user_metadata and user.user_metadata.role else 'Member' }}</p>
-                    </div>
-                    <div class="w-10 h-10 bg-slate-200 rounded-full overflow-hidden">
-                        <img src="{{ user.avatar_url if user else 'https://via.placeholder.com/40' }}" alt="User Avatar">
-                    </div>
-                </div>
-            </header>
+<!-- Mobile Menu Toggle Button (visible only on small screens) -->
+<button id="mobile-menu-btn" class="lg:hidden fixed bottom-4 right-4 z-50 bg-primary text-on-primary w-14 h-14 rounded-full shadow-lg flex items-center justify-center">
+    <span class="material-symbols-outlined">menu</span>
+</button>
 
-            <!-- Page Content -->
-            <div class="flex-1 overflow-auto p-8">
-                {% block content %}{% endblock %}
-            </div>
-        </main>
+<!-- SideNavBar -->
+<aside id="sidebar" class="fixed left-0 top-0 h-screen w-[280px] bg-inverse-surface border-r border-outline-variant flex flex-col py-stack-lg gap-stack-md z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out shadow-2xl lg:shadow-none">
+    <div class="px-6 mb-6 flex justify-between items-center">
+        <div>
+            <h1 class="font-headline-md text-headline-md font-bold text-on-primary">ArchPortal</h1>
+            <p class="text-on-primary/60 text-xs">Management Console</p>
+        </div>
+        <button id="close-sidebar-btn" class="lg:hidden text-white/50 hover:text-white">
+            <span class="material-symbols-outlined">close</span>
+        </button>
     </div>
+    
+    <nav class="flex-grow overflow-y-auto">
+        <ul class="space-y-1">
+            <li>
+                <a href="/dashboard/" class="flex items-center gap-3 px-6 py-3 {% if active_page == 'dashboard' %}border-l-4 border-primary bg-primary-container/10 text-on-primary font-semibold{% else %}text-surface-variant/80 hover:text-on-primary hover:bg-surface-container-highest/10{% endif %} transition-all duration-200">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span class="font-body-md">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/projects/" class="flex items-center gap-3 px-6 py-3 {% if active_page == 'projects' %}border-l-4 border-primary bg-primary-container/10 text-on-primary font-semibold{% else %}text-surface-variant/80 hover:text-on-primary hover:bg-surface-container-highest/10{% endif %} transition-all duration-200">
+                    <span class="material-symbols-outlined">architecture</span>
+                    <span class="font-body-md">Projects</span>
+                </a>
+            </li>
+            <li>
+                <a href="/employees/" class="flex items-center gap-3 px-6 py-3 {% if active_page == 'employees' %}border-l-4 border-primary bg-primary-container/10 text-on-primary font-semibold{% else %}text-surface-variant/80 hover:text-on-primary hover:bg-surface-container-highest/10{% endif %} transition-all duration-200">
+                    <span class="material-symbols-outlined">groups</span>
+                    <span class="font-body-md">Employees</span>
+                </a>
+            </li>
+            <li>
+                <a href="/billing/" class="flex items-center gap-3 px-6 py-3 {% if active_page == 'billing' %}border-l-4 border-primary bg-primary-container/10 text-on-primary font-semibold{% else %}text-surface-variant/80 hover:text-on-primary hover:bg-surface-container-highest/10{% endif %} transition-all duration-200">
+                    <span class="material-symbols-outlined">payments</span>
+                    <span class="font-body-md">Billing</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="mt-auto border-t border-white/10 pt-4">
+        <ul class="space-y-1">
+            <li>
+                <a href="/accounts/logout" class="flex items-center gap-3 px-6 py-3 text-error hover:bg-surface-container-highest/10 transition-all duration-200">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span class="font-body-md">Logout</span>
+                </a>
+            </li>
+        </ul>
+        <div class="px-6 py-4 mt-2 flex items-center gap-3">
+            <img alt="User Avatar" class="w-8 h-8 rounded-full border border-white/20 object-cover" src="{{ user.avatar_url if user and user.avatar_url else 'https://ui-avatars.com/api/?name=' + (user.user_metadata.full_name|urlencode if user and user.user_metadata and user.user_metadata.full_name else 'User') + '&background=random' }}">
+            <div class="overflow-hidden">
+                <p class="text-on-primary text-sm font-semibold truncate">{{ user.user_metadata.full_name if user and user.user_metadata else (user.email if user else 'Guest') }}</p>
+                <p class="text-on-primary/50 text-xs truncate">{{ user.user_metadata.role if user and user.user_metadata and user.user_metadata.role else 'Member' }}</p>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<!-- Overlay for mobile sidebar -->
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"></div>
+
+<!-- Main Content Area -->
+<div class="lg:ml-[280px] min-h-screen flex flex-col transition-all duration-300 w-full lg:w-[calc(100%-280px)]">
+    <!-- TopAppBar -->
+    <header class="sticky top-0 w-full h-16 bg-surface border-b border-outline-variant shadow-sm z-30 flex justify-between items-center px-4 lg:px-gutter">
+        <div class="flex items-center gap-stack-md flex-1">
+            <div class="relative w-full max-w-[300px]">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                <input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-body-md" placeholder="Search..." type="text">
+            </div>
+        </div>
+        <div class="flex items-center gap-2 lg:gap-stack-md">
+            <button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors hidden sm:flex">
+                <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+            </button>
+            <div class="h-8 w-px bg-outline-variant mx-1 lg:mx-2 hidden sm:block"></div>
+            <img alt="User account menu" class="w-8 h-8 rounded-full border border-outline-variant object-cover" src="{{ user.avatar_url if user and user.avatar_url else 'https://ui-avatars.com/api/?name=' + (user.user_metadata.full_name|urlencode if user and user.user_metadata and user.user_metadata.full_name else 'User') + '&background=random' }}">
+        </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="flex-1 p-4 lg:p-gutter overflow-auto w-full max-w-[100vw]">
+        {% block content %}{% endblock %}
+    </main>
+</div>
+
+<script>
+    // Mobile sidebar toggle logic
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const toggleBtn = document.getElementById('mobile-menu-btn');
+    const closeBtn = document.getElementById('close-sidebar-btn');
+
+    function toggleSidebar() {
+        const isOpen = !sidebar.classList.contains('-translate-x-full');
+        if (isOpen) {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        } else {
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+        }
+    }
+
+    toggleBtn.addEventListener('click', toggleSidebar);
+    closeBtn.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', toggleSidebar);
+</script>
+
 </body>
 </html>

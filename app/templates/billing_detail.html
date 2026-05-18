@@ -1,69 +1,144 @@
 {% extends "base.html" %}
 
-{% block content %}
-<div class="p-6 max-w-[1400px] mx-auto">
-    <!-- Breadcrumb -->
-    <nav class="mb-6 flex items-center text-slate-500 text-sm uppercase tracking-wider">
-        <a class="hover:text-indigo-500 transition-colors" href="/billing">Billing</a>
-        <span class="mx-2">›</span>
-        <span class="text-slate-900 font-semibold">{{ invoice.invoice_number }}</span>
-    </nav>
+{% block title %}Invoice #{{ invoice.id[:8] if invoice else '' }} - ArchPortal{% endblock %}
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Invoice Details -->
-        <div class="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-8 shadow-sm">
-            <div class="flex justify-between items-start mb-8">
-                <div>
-                    <h2 class="text-2xl font-bold text-slate-900 mb-1">Invoice {{ invoice.invoice_number }}</h2>
-                    <p class="text-slate-500">Project: {{ invoice.projects.name if invoice.projects else 'N/A' }}</p>
+{% block content %}
+<!-- Breadcrumbs / Page Header -->
+<div class="flex items-center gap-2 mb-stack-lg text-on-surface-variant text-xs md:text-sm">
+    <a href="/billing/" class="font-label-md hover:text-primary transition-colors">Billing</a>
+    <span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span>
+    <a href="/projects/{{ invoice.project_id }}" class="font-label-md hover:text-primary transition-colors truncate max-w-[150px] md:max-w-xs">{{ invoice.project_name if invoice.project_name else 'Project' }}</a>
+    <span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span>
+    <span class="font-label-md text-primary">Invoice #{{ invoice.id[:8] if invoice else '' }}</span>
+</div>
+
+<!-- Two-Column Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+    <!-- Left Column (60%): Invoice Preview -->
+    <div class="lg:col-span-7 xl:col-span-8">
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm p-6 md:p-12 relative overflow-hidden">
+            <!-- Watermark Stamp -->
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div class="font-black text-6xl md:text-[120px] {{ 'text-error border-error' if invoice.status == 'OVERDUE' else 'text-green-500 border-green-500' if invoice.status == 'PAID' else 'text-yellow-500 border-yellow-500' }} uppercase border-[8px] md:border-[12px] px-8 md:px-12 py-4 rounded-xl opacity-[0.05] transform -rotate-[30deg]">
+                    {{ invoice.status }}
                 </div>
-                <span class="px-3 py-1 rounded-full text-sm font-semibold border
-                    {% if invoice.status == 'PAID' %}bg-green-100 text-green-700 border-green-200
-                    {% elif invoice.status == 'PENDING' %}bg-yellow-100 text-yellow-700 border-yellow-200
-                    {% else %}bg-rose-100 text-rose-700 border-rose-200{% endif %}">
-                    {{ invoice.status.replace('_', ' ').title() }}
+            </div>
+
+            <!-- Invoice Header -->
+            <div class="flex flex-col sm:flex-row justify-between items-start mb-8 md:mb-12 gap-6 relative z-10">
+                <div>
+                    <h2 class="font-display-lg text-2xl md:text-display-lg text-primary mb-2">INVOICE</h2>
+                    <div class="space-y-2">
+                        <p class="font-headline-md text-lg md:text-headline-md text-on-surface">#{{ invoice.id }}</p>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="text-on-surface-variant">
+                                <p class="font-label-md text-label-md uppercase tracking-wider text-xs">Issue Date</p>
+                                <p class="font-body-md text-sm md:text-base">{{ invoice.issue_date }}</p>
+                            </div>
+                            <div class="text-on-surface-variant">
+                                <p class="font-label-md text-label-md uppercase tracking-wider text-xs">Due Date</p>
+                                <p class="font-body-md {{ 'text-error font-semibold' if invoice.status == 'OVERDUE' else '' }} text-sm md:text-base">{{ invoice.due_date }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sm:text-right">
+                    <h3 class="font-headline-md text-lg md:text-headline-md text-on-surface">ArchPortal Studio</h3>
+                    <p class="text-on-surface-variant font-body-md text-sm md:text-base">124 Architecture Way<br>Design District, MH 400001<br>contact@archportal.com</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-12 mb-8 md:mb-12 border-t border-outline-variant pt-8 relative z-10">
+                <div>
+                    <p class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant mb-2 text-xs">Bill To</p>
+                    <h4 class="font-headline-md text-base md:text-headline-md mb-1">{{ invoice.client_name if invoice.client_name else 'Valued Client' }}</h4>
+                    <p class="text-on-surface-variant font-body-md text-sm md:text-base">Address details not available in current context.<br>Please update in client profile.</p>
+                </div>
+                <div>
+                    <p class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant mb-2 text-xs">Project Context</p>
+                    <h4 class="font-headline-md text-base md:text-headline-md mb-1">{{ invoice.project_name if invoice.project_name else invoice.project_id }}</h4>
+                    <p class="text-on-surface-variant font-body-md text-sm md:text-base">Phase: Design & Development<br>Milestone Billing</p>
+                </div>
+            </div>
+
+            <!-- Amount Breakdown Table -->
+            <div class="mb-8 md:mb-12 overflow-x-auto relative z-10">
+                <table class="w-full min-w-[500px]">
+                    <thead>
+                        <tr class="bg-surface-container-low border-b border-outline-variant">
+                            <th class="px-4 py-3 text-left font-label-md text-label-md uppercase tracking-wider text-on-surface-variant text-xs">Description</th>
+                            <th class="px-4 py-3 text-right font-label-md text-label-md uppercase tracking-wider text-on-surface-variant text-xs">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-outline-variant">
+                        <tr>
+                            <td class="px-4 py-6">
+                                <p class="font-headline-md text-base md:text-headline-md mb-1">Professional Architecture Services</p>
+                                <p class="text-on-surface-variant font-body-md text-sm">Services rendered for project phase as per contract.</p>
+                            </td>
+                            <td class="px-4 py-6 text-right font-body-md text-sm md:text-base">${{ "{:,.2f}".format(invoice.amount) if invoice.amount else '0.00' }}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="border-t-2 border-primary">
+                            <td class="px-4 py-6 text-right font-label-md text-label-md uppercase text-on-surface-variant text-xs">Grand Total</td>
+                            <td class="px-4 py-6 text-right font-headline-lg text-xl md:text-headline-lg text-primary">${{ "{:,.2f}".format(invoice.amount) if invoice.amount else '0.00' }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <!-- Footer Notes -->
+            <div class="border-t border-outline-variant pt-8 relative z-10">
+                <p class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant mb-2 text-xs">Payment Notes</p>
+                <p class="text-on-surface-variant font-body-md italic mb-4 text-xs md:text-sm">Please include Invoice #{{ invoice.id[:8] if invoice else '' }} in the bank transfer reference. Payments are due within 30 days of the issue date.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column (40%): Actions & Metadata -->
+    <div class="lg:col-span-5 xl:col-span-4 space-y-stack-lg mt-6 lg:mt-0">
+        <!-- Quick Actions Card -->
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm p-4 md:p-stack-lg">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="font-headline-md text-lg md:text-headline-md">Invoice Status</h3>
+                <span class="px-4 py-1 rounded-full text-xs font-bold uppercase
+                    {{ 'bg-green-100 text-green-800 border border-green-200' if invoice.status == 'PAID' else 'bg-yellow-100 text-yellow-800 border border-yellow-200' if invoice.status == 'PENDING' else 'bg-error-container text-on-error-container border border-error' }}">
+                    {{ invoice.status }}
                 </span>
             </div>
-
-            <div class="grid grid-cols-2 gap-6 mb-8">
-                <div>
-                    <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Amount</p>
-                    <p class="text-3xl font-bold text-slate-900">₹ {{ invoice.amount }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Due Date</p>
-                    <p class="text-lg font-semibold text-slate-900">{{ invoice.due_date }}</p>
-                </div>
-            </div>
-
-            {% if invoice.status != 'PAID' %}
-            <form method="post" action="/billing/mark-paid/{{ invoice.id }}">
-                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 px-6 rounded-lg transition-colors text-sm">
+            
+            <div class="space-y-4">
+                {% if invoice.status != 'PAID' %}
+                <button class="w-full bg-primary hover:bg-primary-container text-on-primary py-3 rounded-lg font-headline-md flex items-center justify-center gap-2 transition-all active:scale-[0.98] text-sm">
+                    <span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
                     Mark as Paid
                 </button>
-            </form>
-            {% endif %}
+                {% endif %}
+                
+                <button class="w-full border border-primary text-primary hover:bg-primary-fixed py-3 rounded-lg font-headline-md flex items-center justify-center gap-2 transition-all text-sm">
+                    <span class="material-symbols-outlined" data-icon="download">download</span>
+                    Download PDF
+                </button>
+            </div>
         </div>
 
-        <!-- Sidebar Info -->
-        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm h-fit">
-            <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Invoice Details</h3>
+        <!-- Metadata Card -->
+        <div class="bg-surface-container-low border border-outline-variant rounded-xl p-4 md:p-stack-lg space-y-6">
+            <h3 class="font-headline-md text-lg md:text-headline-md text-on-surface border-b border-outline-variant pb-4">Document Info</h3>
             <div class="space-y-4">
-                <div>
-                    <p class="text-xs text-slate-400 uppercase">Invoice ID</p>
-                    <p class="text-sm font-mono text-slate-700">{{ invoice.id[:8] if invoice.id else 'N/A' }}...</p>
+                <div class="flex justify-between items-center text-sm md:text-base">
+                    <span class="text-on-surface-variant font-body-md">Created at</span>
+                    <span class="font-body-md text-on-surface">{{ invoice.issue_date }}</span>
                 </div>
-                <div>
-                    <p class="text-xs text-slate-400 uppercase">Created</p>
-                    <p class="text-sm text-slate-700">{{ invoice.created_at if invoice.created_at else 'N/A' }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-400 uppercase">Status</p>
-                    <p class="text-sm text-slate-700">{{ invoice.status }}</p>
+                <div class="flex justify-between items-center text-sm md:text-base">
+                    <span class="text-on-surface-variant font-body-md">Project Link</span>
+                    <a class="font-body-md text-primary hover:underline flex items-center gap-1 truncate max-w-[150px]" href="/projects/{{ invoice.project_id }}">
+                        {{ invoice.project_name if invoice.project_name else 'Project' }}
+                        <span class="material-symbols-outlined text-[14px]" data-icon="open_in_new">open_in_new</span>
+                    </a>
                 </div>
             </div>
-            <hr class="my-4 border-slate-100">
-            <a href="/billing" class="text-indigo-600 text-sm font-medium hover:underline">← Back to all invoices</a>
         </div>
     </div>
 </div>

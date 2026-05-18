@@ -1,169 +1,196 @@
 {% extends "base.html" %}
 
+{% block title %}{{ project.name }} - ArchPortal{% endblock %}
+
 {% block content %}
-<div class="p-gutter max-w-[1400px] mx-auto">
-    <!-- Breadcrumb -->
-    <nav class="mb-stack-lg flex items-center text-on-surface-variant font-label-md uppercase tracking-wider">
-        <a class="hover:text-primary transition-colors" href="/projects">Projects</a>
-        <span class="material-symbols-outlined mx-2 text-[16px]">chevron_right</span>
-        <span class="text-on-surface font-semibold">{{ project.name }}</span>
-    </nav>
+<!-- Breadcrumb -->
+<nav class="mb-stack-lg flex items-center text-on-surface-variant font-label-md uppercase tracking-wider text-xs md:text-sm">
+    <a class="hover:text-primary transition-colors" href="/projects/">Projects</a>
+    <span class="material-symbols-outlined mx-1 md:mx-2 text-[16px]" data-icon="chevron_right">chevron_right</span>
+    <span class="text-on-surface font-semibold truncate">{{ project.name }}</span>
+</nav>
 
-    <div class="grid grid-cols-12 gap-gutter">
-        <!-- Left Column (65%) -->
-        <div class="col-span-12 lg:col-span-8 space-y-gutter">
-            <!-- Project Header Card -->
-            <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg shadow-sm">
-                <div class="flex justify-between items-start mb-stack-md">
-                    <div class="flex-1">
-                        <h2 class="font-headline-lg text-headline-lg text-on-surface mb-stack-sm">{{ project.name }}</h2>
-                        <div class="flex flex-wrap gap-stack-md text-on-surface-variant mb-stack-md">
-                            <span class="flex items-center gap-1 font-body-md">
-                                <span class="material-symbols-outlined text-[18px]">business</span>
-                                {{ project.client_name }}
-                            </span>
-                            <span class="flex items-center gap-1 font-body-md">
-                                <span class="material-symbols-outlined text-[18px]">location_on</span>
-                                {{ project.location or 'Not Specified' }}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="flex gap-2">
-                        <span class="px-3 py-1 rounded-full bg-primary/10 text-primary font-label-md">Phase: {{ project.phase }}</span>
-                        <span class="px-3 py-1 rounded-full bg-tertiary/10 text-tertiary font-label-md">Status: {{ project.status.replace('_', ' ').title() }}</span>
+<div class="grid grid-cols-12 gap-gutter">
+    <!-- Left Column (65%) -->
+    <div class="col-span-12 lg:col-span-8 space-y-gutter">
+        <!-- Project Header Card -->
+        <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 md:p-stack-lg shadow-sm">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-stack-md gap-4">
+                <div>
+                    <h2 class="font-headline-lg text-2xl md:text-headline-lg text-on-surface mb-stack-sm">{{ project.name }}</h2>
+                    <div class="flex flex-wrap gap-stack-md text-on-surface-variant mb-stack-md">
+                        <span class="flex items-center gap-1 font-body-md text-sm"><span class="material-symbols-outlined text-[18px]" data-icon="business">business</span> {{ project.client_name }}</span>
                     </div>
                 </div>
-                <p class="text-body-lg text-on-surface-variant leading-relaxed mb-stack-lg">
-                    {{ project.description or 'No description provided for this project.' }}
-                </p>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-stack-md pt-stack-md border-t border-outline-variant">
-                    <div class="flex flex-col">
-                        <p class="font-label-md text-outline mb-1 uppercase">Start Date</p>
-                        <p class="font-body-md font-semibold text-on-surface">{{ project.start_date or 'N/A' }}</p>
-                    </div>
-                    <div class="flex flex-col">
-                        <p class="font-label-md text-outline mb-1 uppercase">Deadline</p>
-                        <p class="font-body-md font-semibold text-on-surface">{{ project.deadline or 'N/A' }}</p>
-                    </div>
-                    <div class="flex flex-col">
-                        <p class="font-label-md text-outline mb-1 uppercase">Project ID</p>
-                        <p class="font-code-md text-on-surface">{{ project.id[:8] }}</p>
-                    </div>
-                    <div class="flex flex-col">
-                        <p class="font-label-md text-outline mb-1 uppercase">Budget</p>
-                        <p class="font-body-md font-semibold text-on-surface">₹ {{ project.budget }} Cr</p>
-                    </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 rounded-full bg-primary/10 text-primary font-label-md">Phase: {{ project.current_phase }}</span>
+                    <span class="px-3 py-1 rounded-full bg-tertiary/10 text-tertiary font-label-md">Status: {{ project.status }}</span>
                 </div>
-            </section>
+            </div>
+            
+            <p class="text-body-lg text-on-surface-variant leading-relaxed mb-stack-lg text-sm md:text-base">
+                {{ project.description if project.description else 'No description available for this project.' }}
+            </p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-stack-md pt-stack-md border-t border-outline-variant">
+                <div>
+                    <p class="font-label-md text-outline mb-1 uppercase text-xs">Start Date</p>
+                    <p class="font-body-md font-semibold text-on-surface text-sm md:text-base">{{ project.start_date if project.start_date else 'TBD' }}</p>
+                </div>
+                <div>
+                    <p class="font-label-md text-outline mb-1 uppercase text-xs">Deadline</p>
+                    <p class="font-body-md font-semibold text-on-surface text-sm md:text-base">{{ project.deadline if project.deadline else 'TBD' }}</p>
+                </div>
+                <div class="col-span-2 md:col-span-2">
+                    <p class="font-label-md text-outline mb-1 uppercase text-xs">Project ID</p>
+                    <p class="font-code-md text-on-surface text-sm">{{ project.id }}</p>
+                </div>
+            </div>
+        </section>
 
-            <!-- Project Phases Section -->
-            <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg shadow-sm">
-                <div class="flex justify-between items-center mb-stack-lg">
-                    <h3 class="font-headline-md text-headline-md text-on-surface">Project Lifecycle</h3>
-                    <button class="bg-primary hover:bg-primary-container text-on-primary px-stack-md py-2 rounded-lg font-label-md transition-colors flex items-center gap-2">
-                        Advance to Next Phase
-                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-                    </button>
-                </div>
-                <div class="relative">
+        <!-- Project Phases Section -->
+        <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 md:p-stack-lg shadow-sm overflow-hidden">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-stack-lg gap-4">
+                <h3 class="font-headline-md text-headline-md text-on-surface">Project Lifecycle</h3>
+                <button class="bg-primary hover:bg-primary-container text-on-primary px-stack-md py-2 rounded-lg font-label-md transition-colors flex items-center gap-2 text-sm">
+                    Advance Phase
+                    <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+                </button>
+            </div>
+            
+            <div class="relative overflow-x-auto pb-4">
+                <div class="min-w-[500px]">
                     <!-- Connector Line -->
-                    <div class="absolute top-4 left-0 w-full h-0.5 bg-outline-variant"></div>
-                    <div class="relative flex justify-between">
+                    <div class="absolute top-4 left-4 right-4 h-0.5 bg-outline-variant z-0"></div>
+                    <div class="relative flex justify-between z-10">
                         {% set phases = ['SD', 'DD', 'CD', 'BIDDING', 'CA', 'CLOSEOUT'] %}
-                        {% for p_code in phases %}
-                        <div class="flex flex-col items-center gap-2 z-10 group">
-                            <div class="w-8 h-8 rounded-full flex items-center justify-center font-label-md transition-colors
-                                {% if project.phase == p_code %}bg-primary text-on-primary ring-4 ring-primary/20{% elif project.phase == 'CLOSEOUT' and p_code != 'CLOSEOUT' %}bg-primary text-on-primary{% elif project.phase == 'SD' and p_code == 'SD' %}bg-primary text-on-primary{% else %}bg-surface-container-high text-on-surface-variant border border-outline-variant{% endif %}">
-                                {% if project.phase == p_code %}
-                                    <span class="material-symbols-outlined text-[20px]">star</span>
-                                {% elif project.phase == 'CLOSEOUT' and p_code != 'CLOSEOUT' %}
-                                    <span class="material-symbols-outlined text-[20px]">check</span>
-                                {% else %}
-                                    {{ loop.index }}
-                                {% endif %}
+                        {% set current_idx = phases.index(project.current_phase) if project.current_phase in phases else 0 %}
+                        
+                        {% for phase in phases %}
+                            {% if loop.index0 < current_idx %}
+                            <!-- Completed -->
+                            <div class="flex flex-col items-center gap-2 group bg-white px-2">
+                                <div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-md shadow-sm">
+                                    <span class="material-symbols-outlined text-[20px]" data-icon="check">check</span>
+                                </div>
+                                <span class="font-label-md text-on-surface-variant">{{ phase }}</span>
                             </div>
-                            <span class="font-label-md {% if project.phase == p_code %}text-primary font-bold{% else %}text-outline{% endif %}">{{ p_code }}</span>
-                        </div>
+                            {% elif loop.index0 == current_idx %}
+                            <!-- Active/Pulsing -->
+                            <div class="flex flex-col items-center gap-2 group bg-white px-2">
+                                <div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-md relative shadow-sm">
+                                    <div class="absolute inset-0 rounded-full bg-primary animate-ping opacity-25"></div>
+                                    <span class="font-label-md">{{ loop.index|string|rjust(2, '0') }}</span>
+                                </div>
+                                <span class="font-label-md text-primary font-bold">{{ phase }}</span>
+                            </div>
+                            {% else %}
+                            <!-- Pending -->
+                            <div class="flex flex-col items-center gap-2 bg-white px-2">
+                                <div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-label-md border border-outline-variant shadow-sm">{{ loop.index|string|rjust(2, '0') }}</div>
+                                <span class="font-label-md text-outline">{{ phase }}</span>
+                            </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Invoices Table -->
-            <section class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden">
-                <div class="p-stack-lg border-b border la-outline-variant flex justify-between items-center">
-                    <h3 class="font-headline-md text-headline-md text-on-surface">Financial Records</h3>
-                    <a href="/billing" class="text-primary font-label-md hover:underline">View All Billing</a>
-                </div>
-                <table class="w-full text-left">
+        <!-- Invoices Table -->
+        <section class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden">
+            <div class="p-4 md:p-stack-lg border-b border-outline-variant flex justify-between items-center">
+                <h3 class="font-headline-md text-lg md:text-headline-md text-on-surface">Financial Records</h3>
+                <a href="/billing/" class="text-primary font-label-md hover:underline">View All</a>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left min-w-[500px]">
                     <thead class="bg-surface-container-low border-b border-outline-variant">
-                        <tr class="text-outline font-label-md">
-                            <th class="px-gutter py-3">INVOICE #</th>
-                            <th class="px-gutter py-3 text-right">AMOUNT</th>
-                            <th class="px-gutter py-3">DUE DATE</th>
-                            <th class="px-gutter py- la-outline-variant">STATUS</th>
+                        <tr>
+                            <th class="px-4 md:px-gutter py-3 font-label-md text-outline">INVOICE #</th>
+                            <th class="px-4 md:px-gutter py-3 font-label-md text-outline text-right">AMOUNT</th>
+                            <th class="px-4 md:px-gutter py-3 font-label-md text-outline">STATUS</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-outline-variant">
-                        {% for invoice in invoices %}
+                        {% for invoice in invoices|default([]) %}
                         <tr class="hover:bg-surface-container-low transition-colors">
-                            <td class="px-gutter py-4 font-code-md text-on-surface">{{ invoice.invoice_number }}</td>
-                            <td class="px-gutter py-4 font-body-md font-semibold text-on-surface text-right">₹ {{ invoice.amount }}</td>
-                            <td class="px-gutter py-4 font-body-md text-on-surface-variant">{{ invoice.due_date }}</td>
-                            <td class="px-gutter py-4">
-                                <span class="px-2 py-0.5 rounded-full font-label-md border
-                                    {% if invoice.status == 'PAID' %}bg-green-100 text-green-700 border-green-200
-                                    {% elif invoice.status == 'PENDING' %}bg-yellow-100 text-yellow-700 border-yellow-200
-                                    {% else %}bg-rose-100 text-rose-700 border-rose-200{% endif %}">
-                                    {{ invoice.status.replace('_', ' ').title() }}
-                                </span>
+                            <td class="px-4 md:px-gutter py-4 font-code-md text-on-surface text-sm">
+                                <a href="/billing/{{ invoice.id }}" class="text-primary hover:underline">{{ invoice.id[:8] }}...</a>
                             </td>
+                            <td class="px-4 md:px-gutter py-4 font-body-md font-semibold text-on-surface text-right text-sm">
+                                ${{ "{:,.2f}".format(invoice.amount) if invoice.amount else '0.00' }}
+                            </td>
+                            <td class="px-4 md:px-gutter py-4 text-sm">
+                                {% if invoice.status == 'PAID' %}
+                                <span class="px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-label-md border border-green-200">Paid</span>
+                                {% elif invoice.status == 'PENDING' %}
+                                <span class="px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-700 font-label-md border border-yellow-200">Pending</span>
+                                {% else %}
+                                <span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-md border border-error">{{ invoice.status }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="3" class="px-4 py-8 text-center text-on-surface-variant text-sm">No invoices found for this project.</td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-            </section>
-        </div>
+            </div>
+        </section>
+    </div>
 
-        <!-- Right Column (35%) -->
-        <div class="col-span-12 lg:col-span-4 space-y-gutter">
-            <!-- Project Metadata (Budget) -->
-            <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg shadow-sm">
-                <h3 class="font-label-md text-outline uppercase mb-stack-md">Financial Oversight</h3>
-                <div class="mb-stack-lg">
-                    <p class="font-display-lg text-display-lg text-on-surface">₹ {{ project.budget }} Cr</p>
-                    <p class="font-label-md text-outline">Total Allocated Budget</p>
-                </div>
-                <div class="space-y-stack-md">
-                    <div class="flex justify-between font-body-md mb-1">
+    <!-- Right Column (35%) -->
+    <div class="col-span-12 lg:col-span-4 space-y-gutter mt-6 lg:mt-0">
+        <!-- Project Metadata (Budget) -->
+        <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 md:p-stack-lg shadow-sm">
+            <h3 class="font-label-md text-outline uppercase mb-stack-md">Financial Oversight</h3>
+            <div class="mb-stack-lg">
+                <p class="font-display-lg text-3xl md:text-display-lg text-on-surface truncate" title="${{ "{:,.2f}".format(project.budget) if project.budget else '0.00' }}">${{ "{:,.2f}".format(project.budget) if project.budget else '0.00' }}</p>
+                <p class="font-label-md text-outline">Total Allocated Budget</p>
+            </div>
+            
+            {% set invoiced_amount = invoices|selectattr("status", "in", ["PAID", "PENDING"])|map(attribute="amount")|sum if invoices else 0 %}
+            {% set budget = project.budget if project.budget else 1 %}
+            {% set percentage = (invoiced_amount / budget * 100)|round(1) if budget > 0 else 0 %}
+            
+            <div class="space-y-stack-md">
+                <div>
+                    <div class="flex justify-between font-body-md mb-1 text-sm">
                         <span class="text-on-surface-variant">Invoiced</span>
-                        <span class="font-semibold text-on-surface">₹ {{ total_invoiced }} ({{ invoiced_percent }}%)</span>
+                        <span class="font-semibold text-on-surface">${{ "{:,.2f}".format(invoiced_amount) }} ({{ percentage }}%)</span>
                     </div>
                     <div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
-                        <div class="h-full bg-primary rounded-full" style="width: {{ invoiced_percent }}%"></div>
+                        <div class="h-full bg-primary rounded-full" style="width: {{ [percentage, 100]|min }}%"></div>
                     </div>
                 </div>
-            </section>
-
-            <!-- Assigned Architects Card -->
-            <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg shadow-sm">
-                <div class="flex justify-between items-center mb-stack-lg">
-                    <h3 class="font-headline-md text-headline-md text-on-surface">Project Team</h3>
-                    <button class="material-symbols-outlined text-primary hover:bg-primary/10 rounded-full p-1 transition-colors">person_add</button>
+                <div class="pt-stack-md flex justify-between items-center border-t border-outline-variant mt-4">
+                    <div>
+                        <p class="font-label-md text-outline uppercase">Outstanding</p>
+                        {% set outstanding = budget - invoiced_amount %}
+                        <p class="font-headline-md text-lg md:text-headline-md {{ 'text-amber-600' if outstanding > 0 else 'text-emerald-600' }}">${{ "{:,.2f}".format(outstanding) if outstanding > 0 else '0.00' }}</p>
+                    </div>
+                    {% if outstanding > 0 %}
+                    <span class="material-symbols-outlined text-amber-600 text-[32px]" data-icon="priority_high">priority_high</span>
+                    {% else %}
+                    <span class="material-symbols-outlined text-emerald-600 text-[32px]" data-icon="check_circle">check_circle</span>
+                    {% endif %}
                 </div>
-                <ul class="space-y-stack-md mb-stack-lg">
-                    {% for architect in architects %}
-                    <li class="flex items-center gap-stack-md p-2 hover:bg-surface-container-low rounded-lg transition-colors cursor-pointer">
-                        <img alt="{{ architect.name }}" class="w-10 h-10 rounded-lg object-cover" src="{{ architect.avatar_url if architect.avatar_url else 'https://via.placeholder.com/40' }}">
-                        <div class="flex-1">
-                            <p class="font-body-md font-semibold text-on-surface">{{ architect.name }}</p>
-                            <p class="font-label-md text-outline">{{ architect.role_title }}</p>
-                        </div>
-                        <span class="px-2 py-0.5 rounded bg-primary/10 text-primary font-label-md">{{ architect.role }}</span>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </section>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-2 gap-4">
+            <button class="flex items-center justify-center gap-2 bg-primary text-on-primary py-3 rounded-xl font-semibold shadow-sm hover:opacity-90 transition-opacity text-sm">
+                <span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+                Edit
+            </button>
+            <button class="flex items-center justify-center gap-2 border border-error text-error py-3 rounded-xl font-semibold hover:bg-error/5 transition-colors text-sm">
+                <span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span>
+                Delete
+            </button>
         </div>
     </div>
 </div>
