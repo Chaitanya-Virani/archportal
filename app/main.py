@@ -1,8 +1,7 @@
 from fastapi import FastAPI, Request, Depends
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import RedirectResponse
 from app.core.config import settings
-from app.core.templates import templates
 from app.core.security import get_current_user_optional
 import os
 
@@ -22,11 +21,8 @@ app.include_router(projects.router)
 app.include_router(billing.router)
 app.include_router(dashboard.router)
 
-@app.get("/", response_class=HTMLResponse)
+@app.get("/")
 async def root(request: Request, user = Depends(get_current_user_optional)):
     if not user:
         return RedirectResponse(url="/accounts/login", status_code=302)
-    return templates.TemplateResponse(request, "dashboard.html", {
-        "user": user,
-        "active_page": "dashboard"
-    })
+    return RedirectResponse(url="/dashboard/", status_code=302)
