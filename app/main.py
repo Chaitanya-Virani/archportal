@@ -1,8 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 from app.core.config import settings
 from app.api import accounts, employees, projects, billing, dashboard
+from app.core.security import get_current_user
 
 app = FastAPI(title="ArchPortal Management System")
 
