@@ -23,7 +23,6 @@ async def project_detail(request: Request, project_id: str, user = Depends(get_c
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
 
-    # Fetch assigned architects
     assign_res = supabase.table("project_assignments").select("employee_id").eq("project_id", project_id).execute()
     employee_ids = [a['employee_id'] for a in assign_res.data]
 
@@ -32,11 +31,9 @@ async def project_detail(request: Request, project_id: str, user = Depends(get_c
         emp_res = supabase.table("employees").select("*").in_("id", employee_ids).execute()
         architects = emp_res.data
 
-    # Fetch project invoices
     inv_res = supabase.table("invoices").select("*").eq("project_id", project_id).execute()
     invoices = inv_res.data
 
-    # Calculate financial stats
     total_budget = project.get('budget', 0) or 0
     total_invoiced = sum(inv.get('amount', 0) or 0 for inv in invoices)
     invoiced_percent = round((total_invoiced / total_budget * 100), 1) if total_budget > 0 else 0
@@ -74,3 +71,21 @@ async def create_project(
     }
     res = supabase.table("projects").insert(data).execute()
     return RedirectResponse(url="/projects/", status_code=303)
+
+@router.post("/assign")
+async def assign_architect(
+    project_id: str = Form(...),
+    employee_id: str = Form(...),
+    user = Depends(get_current_user),
+    role = Depends(role_required(["ADMIN"]))
+):
+    try:
+        supabase.table("project_assignments").insert({
+            "project_id": project_id,
+            "employee_id": employee_id,
+            "assigned_date": "now()" # Simplified for now
+        }).execute()
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    return RedirectResponse(url=f"/projects/{project_id}", status_code=303)

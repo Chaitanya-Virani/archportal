@@ -18,14 +18,11 @@ async def list_employees(request: Request, user = Depends(get_current_user)):
 
 @router.get("/{employee_id}", response_class=HTMLResponse)
 async def employee_detail(request: Request, employee_id: str, user = Depends(get_current_user)):
-    # Fetch employee and their assigned projects
     emp_res = supabase.table("employees").select("*").eq("id", employee_id).single().execute()
     employee = emp_res.data
-
     if not employee:
         raise HTTPException(status_code=404, detail="Employee not found")
 
-    # Fetch assigned projects via project_assignments table
     assign_res = supabase.table("project_assignments").select("project_id").eq("employee_id", employee_id).execute()
     project_ids = [a['project_id'] for a in assign_res.data]
 
@@ -50,6 +47,11 @@ async def create_employee(
     user = Depends(get_current_user),
     role = Depends(role_required(["ADMIN"]))
 ):
+    # 1. Create the profile first to ensure FK consistency
+    # Note: In a real app, we would check if the user already has a profile
+    # Since we are adding 'employees' who might not be Supabase users yet,
+    # we can create a profile or allow profile_id to be null.
+
     data = {
         "name": name,
         "email": email,

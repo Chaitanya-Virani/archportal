@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                    <span class="px-3 py-1 rounded-full bg-primary/10 text-primary font-label-md">Phase: {{ project.current_phase }}</span>
+                    <span class="px-3 py-1 rounded-full bg-primary/10 text-primary font-label-md">Phase: {{ project.phase }}</span>
                     <span class="px-3 py-1 rounded-full bg-tertiary/10 text-tertiary font-label-md">Status: {{ project.status }}</span>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                     <div class="absolute top-4 left-4 right-4 h-0.5 bg-outline-variant z-0"></div>
                     <div class="relative flex justify-between z-10">
                         {% set phases = ['SD', 'DD', 'CD', 'BIDDING', 'CA', 'CLOSEOUT'] %}
-                        {% set current_idx = phases.index(project.current_phase) if project.current_phase in phases else 0 %}
+                        {% set current_idx = phases.index(project.phase) if project.phase in phases else 0 %}
                         
                         {% for phase in phases %}
                             {% if loop.index0 < current_idx %}
