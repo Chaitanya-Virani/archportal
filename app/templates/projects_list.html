@@ -80,7 +80,7 @@
                     </td>
                     <td class="py-4 px-6 text-body-md">{{ project.client_name }}</td>
                     <td class="py-4 px-6">
-                        <span class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-[10px] font-bold">{{ project.current_phase }}</span>
+                        <span class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-[10px] font-bold">{{ project.current_phase if project.current_phase else project.phase }}</span>
                     </td>
                     <td class="py-4 px-6">
                         {% if project.status == 'IN_PROGRESS' %}

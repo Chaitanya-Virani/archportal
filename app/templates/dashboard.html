@@ -74,7 +74,7 @@
                                 <span class="font-semibold text-on-surface group-hover:text-primary transition-colors block truncate max-w-[200px]">{{ project.name }}</span>
                             </td>
                             <td class="px-4 md:px-gutter py-4 text-on-surface-variant font-body-md text-sm">
-                                <span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded text-xs font-bold">{{ project.current_phase if project.current_phase else 'N/A' }}</span>
+                                <span class="bg-surface-container-high text-on-surface-variant px-2 py-1 rounded text-xs font-bold">{{ project.current_phase if project.current_phase else (project.phase if project.phase else 'N/A') }}</span>
                             </td>
                             <td class="px-4 md:px-gutter py-4">
                                 {% if project.status == 'IN_PROGRESS' %}

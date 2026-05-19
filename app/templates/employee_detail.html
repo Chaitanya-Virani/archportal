@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}{{ employee.first_name }} {{ employee.last_name }} - ArchPortal{% endblock %}
+{% block title %}{{ employee.name if employee.name else (employee.first_name ~ ' ' ~ employee.last_name) }} - ArchPortal{% endblock %}
 
 {% block content %}
 <!-- Breadcrumbs -->
 <nav class="flex items-center gap-2 mb-stack-lg text-on-surface-variant text-xs md:text-sm">
     <a class="font-label-md hover:text-primary transition-colors" href="/employees/">Employees</a>
-    <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
-    <span class="font-label-md text-on-surface truncate">{{ employee.first_name }} {{ employee.last_name }}</span>
+    <span class="material-symbols-outlined text-sm">chevron_right</span>
+    <span class="font-label-md text-on-surface truncate">{{ employee.name if employee.name else (employee.first_name ~ ' ' ~ employee.last_name) }}</span>
 </nav>
 
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
@@ -17,22 +17,22 @@
         <section class="bg-surface-container-lowest p-stack-lg rounded-xl border border-outline-variant shadow-sm">
             <div class="flex flex-col items-center text-center">
                 <div class="w-24 h-24 rounded-full bg-surface-container-highest mb-stack-md flex items-center justify-center border-4 border-primary-fixed overflow-hidden text-3xl font-bold text-on-surface">
-                    {{ employee.first_name[0] if employee.first_name else '' }}{{ employee.last_name[0] if employee.last_name else '' }}
+                    {{ employee.name[0] if employee.name else (employee.first_name[0] if employee.first_name else '') }}
                 </div>
-                <h2 class="font-headline-md text-xl md:text-[22px] font-bold text-on-surface mb-1">{{ employee.first_name }} {{ employee.last_name }}</h2>
-                <span class="px-3 py-1 bg-secondary-container/10 text-secondary font-label-md text-xs md:text-label-md rounded-full mb-stack-lg">{{ employee.role }}</span>
+                <h2 class="font-headline-md text-xl md:text-[22px] font-bold text-on-surface mb-1">{{ employee.name if employee.name else (employee.first_name ~ ' ' ~ employee.last_name) }}</h2>
+                <span class="px-3 py-1 bg-secondary-container/10 text-secondary font-label-md text-xs md:text-label-md rounded-full mb-stack-lg">{{ employee.role_title if employee.role_title else employee.role }}</span>
                 
                 <div class="w-full space-y-4 text-left border-t border-outline-variant pt-stack-lg">
                     <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary text-xl" data-icon="mail">mail</span>
+                        <span class="material-symbols-outlined text-primary text-xl">mail</span>
                         <span class="font-body-md text-sm md:text-base text-on-surface-variant break-all">{{ employee.email }}</span>
                     </div>
                     <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary text-xl" data-icon="phone">phone</span>
+                        <span class="material-symbols-outlined text-primary text-xl">phone</span>
                         <span class="font-body-md text-sm md:text-base text-on-surface-variant">{{ employee.phone if employee.phone else 'Not provided' }}</span>
                     </div>
                     <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary text-xl" data-icon="badge">badge</span>
+                        <span class="material-symbols-outlined text-primary text-xl">badge</span>
                         <span class="font-body-md text-sm md:text-base text-on-surface-variant">Department: {{ employee.department if employee.department else 'N/A' }}</span>
                     </div>
                 </div>
@@ -42,11 +42,11 @@
         <!-- Admin Actions -->
         <div class="flex flex-col gap-3">
             <button class="flex items-center justify-center gap-2 bg-primary text-on-primary py-3 px-6 rounded-lg font-body-md font-semibold hover:bg-primary-container transition-all active:scale-[0.98] text-sm">
-                <span class="material-symbols-outlined text-xl" data-icon="edit">edit</span>
+                <span class="material-symbols-outlined text-xl">edit</span>
                 Edit Employee
             </button>
             <button class="flex items-center justify-center gap-2 border border-error text-error py-3 px-6 rounded-lg font-body-md font-semibold hover:bg-error/5 transition-all text-sm">
-                <span class="material-symbols-outlined text-xl" data-icon="{{ 'person_off' if employee.is_active else 'person_add' }}">{{ 'person_off' if employee.is_active else 'person_add' }}</span>
+                <span class="material-symbols-outlined text-xl">{{ 'person_off' if employee.is_active else 'person_add' }}</span>
                 {{ 'Deactivate Account' if employee.is_active else 'Activate Account' }}
             </button>
         </div>
@@ -65,13 +65,13 @@
             
             <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant">
                 <p class="font-label-md text-xs md:text-label-md text-on-surface-variant uppercase tracking-wider mb-1">System Access</p>
-                <p class="font-body-md text-sm md:text-base text-on-surface">This employee has been granted access to the ArchPortal Management Console. Role-based permissions apply based on their assigned role: <strong>{{ employee.role }}</strong>.</p>
+                <p class="font-body-md text-sm md:text-base text-on-surface">This employee has been granted access to the ArchPortal Management Console. Role-based permissions apply based on their assigned role: <strong>{{ employee.role_title if employee.role_title else employee.role }}</strong>.</p>
             </div>
         </section>
         
         <!-- Additional info placeholder -->
         <section class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm p-stack-lg flex flex-col items-center justify-center text-center h-48">
-            <span class="material-symbols-outlined text-outline text-4xl mb-2" data-icon="construction">construction</span>
+            <span class="material-symbols-outlined text-outline text-4xl mb-2">construction</span>
             <p class="text-on-surface-variant text-sm md:text-base">Assigned projects and task tracking module coming soon.</p>
         </section>
     </div>

@@ -6,7 +6,7 @@
 <!-- Breadcrumb -->
 <nav class="mb-stack-lg flex items-center text-on-surface-variant font-label-md uppercase tracking-wider text-xs md:text-sm">
     <a class="hover:text-primary transition-colors" href="/projects/">Projects</a>
-    <span class="material-symbols-outlined mx-1 md:mx-2 text-[16px]" data-icon="chevron_right">chevron_right</span>
+    <span class="material-symbols-outlined mx-1 md:mx-2 text-[16px]">chevron_right</span>
     <span class="text-on-surface font-semibold truncate">{{ project.name }}</span>
 </nav>
 
@@ -19,11 +19,11 @@
                 <div>
                     <h2 class="font-headline-lg text-2xl md:text-headline-lg text-on-surface mb-stack-sm">{{ project.name }}</h2>
                     <div class="flex flex-wrap gap-stack-md text-on-surface-variant mb-stack-md">
-                        <span class="flex items-center gap-1 font-body-md text-sm"><span class="material-symbols-outlined text-[18px]" data-icon="business">business</span> {{ project.client_name }}</span>
+                        <span class="flex items-center gap-1 font-body-md text-sm"><span class="material-symbols-outlined text-[18px]">business</span> {{ project.client_name }}</span>
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                    <span class="px-3 py-1 rounded-full bg-primary/10 text-primary font-label-md">Phase: {{ project.phase }}</span>
+                    <span class="px-3 py-1 rounded-full bg-primary/10 text-primary font-label-md">Phase: {{ project.current_phase }}</span>
                     <span class="px-3 py-1 rounded-full bg-tertiary/10 text-tertiary font-label-md">Status: {{ project.status }}</span>
                 </div>
             </div>
@@ -52,10 +52,6 @@
         <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 md:p-stack-lg shadow-sm overflow-hidden">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-stack-lg gap-4">
                 <h3 class="font-headline-md text-headline-md text-on-surface">Project Lifecycle</h3>
-                <button class="bg-primary hover:bg-primary-container text-on-primary px-stack-md py-2 rounded-lg font-label-md transition-colors flex items-center gap-2 text-sm">
-                    Advance Phase
-                    <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
-                </button>
             </div>
             
             <div class="relative overflow-x-auto pb-4">
@@ -64,30 +60,30 @@
                     <div class="absolute top-4 left-4 right-4 h-0.5 bg-outline-variant z-0"></div>
                     <div class="relative flex justify-between z-10">
                         {% set phases = ['SD', 'DD', 'CD', 'BIDDING', 'CA', 'CLOSEOUT'] %}
-                        {% set current_idx = phases.index(project.phase) if project.phase in phases else 0 %}
+                        {% set current_phase = project.current_phase if project.current_phase else 'SD' %}
                         
                         {% for phase in phases %}
-                            {% if loop.index0 < current_idx %}
+                            {% if phases.index(phase) < phases.index(current_phase) if current_phase in phases else 0 %}
                             <!-- Completed -->
                             <div class="flex flex-col items-center gap-2 group bg-white px-2">
                                 <div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-md shadow-sm">
-                                    <span class="material-symbols-outlined text-[20px]" data-icon="check">check</span>
+                                    <span class="material-symbols-outlined text-[20px]">check</span>
                                 </div>
                                 <span class="font-label-md text-on-surface-variant">{{ phase }}</span>
                             </div>
-                            {% elif loop.index0 == current_idx %}
+                            {% elif phase == current_phase %}
                             <!-- Active/Pulsing -->
                             <div class="flex flex-col items-center gap-2 group bg-white px-2">
                                 <div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-md relative shadow-sm">
                                     <div class="absolute inset-0 rounded-full bg-primary animate-ping opacity-25"></div>
-                                    <span class="font-label-md">{{ loop.index|string|rjust(2, '0') }}</span>
+                                    <span class="font-label-md text-xs">{{ loop.index }}</span>
                                 </div>
                                 <span class="font-label-md text-primary font-bold">{{ phase }}</span>
                             </div>
                             {% else %}
                             <!-- Pending -->
                             <div class="flex flex-col items-center gap-2 bg-white px-2">
-                                <div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-label-md border border-outline-variant shadow-sm">{{ loop.index|string|rjust(2, '0') }}</div>
+                                <div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center font-label-md border border-outline-variant shadow-sm text-xs">{{ loop.index }}</div>
                                 <span class="font-label-md text-outline">{{ phase }}</span>
                             </div>
                             {% endif %}
@@ -113,7 +109,8 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-outline-variant">
-                        {% for invoice in invoices|default([]) %}
+                        {% if invoices %}
+                        {% for invoice in invoices %}
                         <tr class="hover:bg-surface-container-low transition-colors">
                             <td class="px-4 md:px-gutter py-4 font-code-md text-on-surface text-sm">
                                 <a href="/billing/{{ invoice.id }}" class="text-primary hover:underline">{{ invoice.id[:8] }}...</a>
@@ -131,11 +128,12 @@
                                 {% endif %}
                             </td>
                         </tr>
+                        {% endfor %}
                         {% else %}
                         <tr>
                             <td colspan="3" class="px-4 py-8 text-center text-on-surface-variant text-sm">No invoices found for this project.</td>
                         </tr>
-                        {% endfor %}
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
@@ -152,30 +150,26 @@
                 <p class="font-label-md text-outline">Total Allocated Budget</p>
             </div>
             
-            {% set invoiced_amount = invoices|selectattr("status", "in", ["PAID", "PENDING"])|map(attribute="amount")|sum if invoices else 0 %}
-            {% set budget = project.budget if project.budget else 1 %}
-            {% set percentage = (invoiced_amount / budget * 100)|round(1) if budget > 0 else 0 %}
-            
             <div class="space-y-stack-md">
                 <div>
                     <div class="flex justify-between font-body-md mb-1 text-sm">
                         <span class="text-on-surface-variant">Invoiced</span>
-                        <span class="font-semibold text-on-surface">${{ "{:,.2f}".format(invoiced_amount) }} ({{ percentage }}%)</span>
+                        <span class="font-semibold text-on-surface">${{ "{:,.2f}".format(total_invoiced) }} ({{ invoiced_percent }}%)</span>
                     </div>
                     <div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
-                        <div class="h-full bg-primary rounded-full" style="width: {{ [percentage, 100]|min }}%"></div>
+                        <div class="h-full bg-primary rounded-full" style="width: {{ [invoiced_percent, 100]|min }}%"></div>
                     </div>
                 </div>
                 <div class="pt-stack-md flex justify-between items-center border-t border-outline-variant mt-4">
                     <div>
                         <p class="font-label-md text-outline uppercase">Outstanding</p>
-                        {% set outstanding = budget - invoiced_amount %}
+                        {% set outstanding = (project.budget if project.budget else 0) - total_invoiced %}
                         <p class="font-headline-md text-lg md:text-headline-md {{ 'text-amber-600' if outstanding > 0 else 'text-emerald-600' }}">${{ "{:,.2f}".format(outstanding) if outstanding > 0 else '0.00' }}</p>
                     </div>
                     {% if outstanding > 0 %}
-                    <span class="material-symbols-outlined text-amber-600 text-[32px]" data-icon="priority_high">priority_high</span>
+                    <span class="material-symbols-outlined text-amber-600 text-[32px]">priority_high</span>
                     {% else %}
-                    <span class="material-symbols-outlined text-emerald-600 text-[32px]" data-icon="check_circle">check_circle</span>
+                    <span class="material-symbols-outlined text-emerald-600 text-[32px]">check_circle</span>
                     {% endif %}
                 </div>
             </div>
@@ -184,11 +178,11 @@
         <!-- Quick Actions -->
         <div class="grid grid-cols-2 gap-4">
             <button class="flex items-center justify-center gap-2 bg-primary text-on-primary py-3 rounded-xl font-semibold shadow-sm hover:opacity-90 transition-opacity text-sm">
-                <span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+                <span class="material-symbols-outlined text-[18px]">edit</span>
                 Edit
             </button>
             <button class="flex items-center justify-center gap-2 border border-error text-error py-3 rounded-xl font-semibold hover:bg-error/5 transition-colors text-sm">
-                <span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span>
+                <span class="material-symbols-outlined text-[18px]">delete</span>
                 Delete
             </button>
         </div>

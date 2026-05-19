@@ -8,8 +8,11 @@ router = APIRouter(prefix="/employees", tags=["employees"])
 
 @router.get("/", response_class=HTMLResponse)
 async def list_employees(request: Request, user = Depends(get_current_user)):
-    res = supabase.table("employees").select("*").execute()
-    employees = res.data
+    try:
+        res = supabase.table("employees").select("*").execute()
+        employees = res.data
+    except Exception:
+        employees = []
     return templates.TemplateResponse(request, "employees_list.html", {
         "employees": employees,
         "user": user,
@@ -18,18 +21,25 @@ async def list_employees(request: Request, user = Depends(get_current_user)):
 
 @router.get("/{employee_id}", response_class=HTMLResponse)
 async def employee_detail(request: Request, employee_id: str, user = Depends(get_current_user)):
-    emp_res = supabase.table("employees").select("*").eq("id", employee_id).single().execute()
-    employee = emp_res.data
+    try:
+        emp_res = supabase.table("employees").select("*").eq("id", employee_id).single().execute()
+        employee = emp_res.data
+    except Exception:
+        raise HTTPException(status_code=404, detail="Employee not found")
+
     if not employee:
         raise HTTPException(status_code=404, detail="Employee not found")
 
-    assign_res = supabase.table("project_assignments").select("project_id").eq("employee_id", employee_id).execute()
-    project_ids = [a['project_id'] for a in assign_res.data]
-
+    # Fetch assigned projects via project_assignments table (safely)
     projects = []
-    if project_ids:
-        proj_res = supabase.table("projects").select("*").in_("id", project_ids).execute()
-        projects = proj_res.data
+    try:
+        assign_res = supabase.table("project_assignments").select("project_id").eq("employee_id", employee_id).execute()
+        project_ids = [a['project_id'] for a in assign_res.data]
+        if project_ids:
+            proj_res = supabase.table("projects").select("*").in_("id", project_ids).execute()
+            projects = proj_res.data
+    except Exception:
+        pass
 
     return templates.TemplateResponse(request, "employee_detail.html", {
         "employee": employee,
@@ -47,11 +57,6 @@ async def create_employee(
     user = Depends(get_current_user),
     role = Depends(role_required(["ADMIN"]))
 ):
-    # 1. Create the profile first to ensure FK consistency
-    # Note: In a real app, we would check if the user already has a profile
-    # Since we are adding 'employees' who might not be Supabase users yet,
-    # we can create a profile or allow profile_id to be null.
-
     data = {
         "name": name,
         "email": email,

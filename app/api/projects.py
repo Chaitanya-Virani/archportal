@@ -18,25 +18,47 @@ async def list_projects(request: Request, user = Depends(get_current_user)):
 
 @router.get("/{project_id}", response_class=HTMLResponse)
 async def project_detail(request: Request, project_id: str, user = Depends(get_current_user)):
-    proj_res = supabase.table("projects").select("*").eq("id", project_id).single().execute()
-    project = proj_res.data
+    try:
+        proj_res = supabase.table("projects").select("*").eq("id", project_id).single().execute()
+        project = proj_res.data
+    except Exception:
+        raise HTTPException(status_code=404, detail="Project not found")
+
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
 
-    assign_res = supabase.table("project_assignments").select("employee_id").eq("project_id", project_id).execute()
-    employee_ids = [a['employee_id'] for a in assign_res.data]
-
+    # Fetch assigned architects (safely — table may not exist)
     architects = []
-    if employee_ids:
-        emp_res = supabase.table("employees").select("*").in_("id", employee_ids).execute()
-        architects = emp_res.data
+    try:
+        assign_res = supabase.table("project_assignments").select("employee_id").eq("project_id", project_id).execute()
+        employee_ids = [a['employee_id'] for a in assign_res.data]
+        if employee_ids:
+            emp_res = supabase.table("employees").select("*").in_("id", employee_ids).execute()
+            architects = emp_res.data
+    except Exception:
+        pass
 
-    inv_res = supabase.table("invoices").select("*").eq("project_id", project_id).execute()
-    invoices = inv_res.data
+    # Fetch project invoices (safely)
+    invoices = []
+    try:
+        inv_res = supabase.table("invoices").select("*").eq("project_id", project_id).execute()
+        invoices = inv_res.data
+    except Exception:
+        pass
 
     total_budget = project.get('budget', 0) or 0
     total_invoiced = sum(inv.get('amount', 0) or 0 for inv in invoices)
     invoiced_percent = round((total_invoiced / total_budget * 100), 1) if total_budget > 0 else 0
+
+    # Normalize phase field: the create endpoint stores "phase",
+    # but some code/templates may expect "current_phase".
+    if 'current_phase' not in project and 'phase' in project:
+        project['current_phase'] = project['phase']
+    elif 'phase' not in project and 'current_phase' in project:
+        project['phase'] = project['current_phase']
+    # Ensure both keys exist with a sensible default
+    project.setdefault('phase', 'SD')
+    project.setdefault('current_phase', project['phase'])
 
     return templates.TemplateResponse(request, "project_detail.html", {
         "project": project,
@@ -66,7 +88,7 @@ async def create_project(
         "budget": budget,
         "deadline": deadline,
         "status": "PLANNING",
-        "phase": "SD",
+        "current_phase": "SD",
         "created_by": user.id
     }
     res = supabase.table("projects").insert(data).execute()
@@ -83,7 +105,6 @@ async def assign_architect(
         supabase.table("project_assignments").insert({
             "project_id": project_id,
             "employee_id": employee_id,
-            "assigned_date": "now()" # Simplified for now
         }).execute()
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

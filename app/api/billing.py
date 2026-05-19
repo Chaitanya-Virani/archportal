@@ -7,14 +7,32 @@ from datetime import date
 
 router = APIRouter(prefix="/billing", tags=["billing"])
 
+
+def _normalize_invoice(inv):
+    """Flatten the nested projects join into a top-level project_name field."""
+    if inv and 'projects' in inv and isinstance(inv['projects'], dict):
+        inv['project_name'] = inv['projects'].get('name', '')
+    elif inv and 'project_name' not in inv:
+        inv['project_name'] = ''
+    # Ensure issue_date has a fallback
+    inv.setdefault('issue_date', inv.get('created_at', 'N/A'))
+    return inv
+
+
 @router.get("/", response_class=HTMLResponse)
 async def list_invoices(request: Request, user = Depends(get_current_user)):
-    res = supabase.table("invoices").select("*, projects(name)").execute()
-    invoices = res.data
-    
-    proj_res = supabase.table("projects").select("id, name").execute()
-    projects = proj_res.data
-    
+    try:
+        res = supabase.table("invoices").select("*, projects(name)").execute()
+        invoices = [_normalize_invoice(inv) for inv in res.data]
+    except Exception:
+        invoices = []
+
+    try:
+        proj_res = supabase.table("projects").select("id, name").execute()
+        projects = proj_res.data
+    except Exception:
+        projects = []
+
     return templates.TemplateResponse(request, "billing_list.html", {
         "invoices": invoices,
         "projects": projects,
@@ -24,8 +42,12 @@ async def list_invoices(request: Request, user = Depends(get_current_user)):
 
 @router.get("/{invoice_id}", response_class=HTMLResponse)
 async def invoice_detail(request: Request, invoice_id: str, user = Depends(get_current_user)):
-    res = supabase.table("invoices").select("*, projects(name)").eq("id", invoice_id).single().execute()
-    invoice = res.data
+    try:
+        res = supabase.table("invoices").select("*, projects(name)").eq("id", invoice_id).single().execute()
+        invoice = _normalize_invoice(res.data)
+    except Exception:
+        raise HTTPException(status_code=404, detail="Invoice not found")
+
     if not invoice:
         raise HTTPException(status_code=404, detail="Invoice not found")
 
@@ -50,6 +72,7 @@ async def create_invoice(
         "invoice_number": invoice_number,
         "amount": amount,
         "due_date": due_date,
+        "issue_date": str(date.today()),
         "status": "PENDING",
         "created_by": user.id
     }
