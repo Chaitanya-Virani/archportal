@@ -16,24 +16,27 @@ async def dashboard(request: Request, user = Depends(get_current_user)):
     upcoming_deadlines = []
 
     try:
-        # 1. Total active projects
-        proj_res = supabase.table("projects").select("id", count="exact").eq("status", "IN_PROGRESS").execute()
+        # 1. Total projects (all statuses)
+        proj_res = supabase.table("projects").select("id", count="exact").execute()
         active_projects = proj_res.count or 0
-    except Exception:
+    except Exception as e:
+        print(f"Dashboard Error (Projects): {e}")
         pass
 
     try:
         # 2. Total pending receivables (Sum of all PENDING and OVERDUE invoices)
         inv_res = supabase.table("invoices").select("amount").in_("status", ["PENDING", "OVERDUE"]).execute()
         pending_receivables = sum(inv.get('amount', 0) or 0 for inv in inv_res.data)
-    except Exception:
+    except Exception as e:
+        print(f"Dashboard Error (Invoices): {e}")
         pass
 
     try:
         # 3. Total Architects
         emp_res = supabase.table("employees").select("id", count="exact").eq("is_active", True).execute()
         active_architects = emp_res.count or 0
-    except Exception:
+    except Exception as e:
+        print(f"Dashboard Error (Employees): {e}")
         pass
 
     try:
